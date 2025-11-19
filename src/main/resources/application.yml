@@ -1,0 +1,13 @@
+api:
+  paths:
+    public-patterns:
+      - /images/**
+      - /swagger-ui/**
+      - /v3/api-docs/**
+      - /api/v1/auth/**
+    public-get:
+      - /api/v1/**
+    public-put:
+      - /api/v1/posts/post-view/**
+      - /api/v1/contacts/send-idea
+      - /api/v1/contacts/send-contact
