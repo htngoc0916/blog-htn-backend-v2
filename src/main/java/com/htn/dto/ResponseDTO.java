@@ -2,6 +2,7 @@ package com.htn.dto;
 
 import com.htn.constant.StatusConstant;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +14,7 @@ import java.time.Instant;
 public class ResponseDTO<T> {
     private int code;
     private String status;
-    private Instant timestamp = Instant.now();
+    private Instant date = Instant.now();
     private String message;
     private T data;
 

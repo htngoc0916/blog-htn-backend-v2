@@ -1,7 +1,8 @@
 package com.htn.config;
 
+import com.htn.security.jwt.JwtEntryPoint;
+import com.htn.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,16 +29,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-    @Autowired
-    private JwtEntryPoint jwtEntryPoint;
-    @Autowired
-    private JwtFilter jwtFilter;
+
+    private final JwtEntryPoint jwtEntryPoint;
+    private final JwtFilter jwtFilter;
+    private final  ApiPathsConfig apiPathsConfig;
 
     @Value("${blog.cors.url}")
     private List<String> corsUrl;
-
-    @Autowired
-    private ApiPathsConfig apiPathsConfig;
 
     @Bean
     public static PasswordEncoder passwordEncoder(){

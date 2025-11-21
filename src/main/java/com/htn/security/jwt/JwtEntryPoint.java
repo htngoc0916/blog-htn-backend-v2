@@ -1,6 +1,7 @@
 package com.htn.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.htn.dto.ResponseDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,13 +28,9 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        final Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "Unauthorized");
-        body.put("message", authException.getMessage());
-        body.put("path", request.getServletPath());
+        ResponseDTO<?> dto = ResponseDTO.error(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage(), request.getServletPath());
 
         final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), body);
+        mapper.writeValue(response.getOutputStream(), dto);
     }
 }

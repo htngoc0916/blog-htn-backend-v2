@@ -1,5 +1,6 @@
 package com.htn.security.jwt;
 
+import com.htn.exception.AccessDeniedException;
 import com.htn.security.custom.CustomUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -18,9 +19,9 @@ import java.util.Date;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-    @Value("${blog.jwt-secret}")
+    @Value("${jwt.secret}")
     private String jwtSecret;
-    @Value("${blog.jwt-expiration-milliseconds}")
+    @Value("${jwt.expiration-milliseconds}")
     private long jwtExpirationDate;
 
     public String generateJwtToken(CustomUserDetails userDetail){
@@ -58,7 +59,6 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-
     //validate Jwt token
     public boolean validateToken(String token){
         try {
@@ -66,16 +66,16 @@ public class JwtTokenProvider {
             return true;
         }catch (MalformedJwtException ex){
             log.error("Invalid JWT token: {}", ex.getMessage());
-            throw new BlogApiException("Invalid JWT token");
+            throw new AccessDeniedException("Invalid JWT token");
         }catch (ExpiredJwtException ex){
             log.error("Expired JWT token: {}", ex.getMessage());
-            throw new BlogApiException("Expired JWT token");
+            throw new AccessDeniedException("Expired JWT token");
         }catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT token: {}", ex.getMessage());
-            throw new BlogApiException("Unsupported JWT token");
+            throw new AccessDeniedException("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
             log.error("JWT claims string is empty: {}", ex.getMessage());
-            throw new BlogApiException("JWT claims string is empty");
+            throw new AccessDeniedException("JWT claims string is empty");
         }
     }
 }

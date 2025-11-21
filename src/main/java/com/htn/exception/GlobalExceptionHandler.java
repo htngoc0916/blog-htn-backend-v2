@@ -13,11 +13,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    //Custom exception handler
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<?> handleCustomException(CustomException exp, WebRequest request){
+    //Custom global exception handler
+    @ExceptionHandler(GlobalException.class)
+    public ResponseEntity<?> handleCustomException(GlobalException exp, WebRequest request){
         log.error(exp.getMessage());
-        ResponseDTO<?> responseDTO = ResponseDTO.error(exp.getCode().value()
+        ResponseDTO<?> responseDTO = ResponseDTO.ok(exp.getCode().value()
                 ,exp.getMessage(),
                 request.getDescription(false));
         return ResponseEntity.status(exp.getCode()).body(responseDTO);
