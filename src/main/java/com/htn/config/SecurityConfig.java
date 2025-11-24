@@ -67,11 +67,11 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests((authorize) ->  authorize
                     //public all endpoints
-                    .requestMatchers(apiPathsConfig.getPublicPatterns().toString()).permitAll()
+                    .requestMatchers(apiPathsConfig.getPublicPatterns().toArray(new String[0])).permitAll()
                     //public get endpoints
-                    .requestMatchers(HttpMethod.GET, apiPathsConfig.getPublicGet().toString()).permitAll()
+                    .requestMatchers(HttpMethod.GET, apiPathsConfig.getPublicGet().toArray(new String[0])).permitAll()
                     //public put endpoints
-                    .requestMatchers(HttpMethod.PUT, apiPathsConfig.getPublicPut().toString()).permitAll()
+                    .requestMatchers(HttpMethod.PUT, apiPathsConfig.getPublicPut().toArray(new String[0])).permitAll()
                     //options requests
                     .requestMatchers(HttpMethod.OPTIONS).permitAll()
                     .anyRequest().authenticated())

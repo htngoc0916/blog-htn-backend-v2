@@ -35,8 +35,11 @@ public class Token {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private Date refreshExpirationDate;
 
-    @Column(name = "MOBILE_PC", length = 1)
-    private String mobilePc;
+    @Column(name = "DEVICE")
+    private String device;
+
+    @Column(name = "DEVICE_TYPE", length = 1)
+    private String deviceType;
 
     @Column(name = "REVOKED", length = 1)
     @Builder.Default
@@ -45,6 +48,9 @@ public class Token {
     @Column(name = "EXPIRED", length = 1)
     @Builder.Default
     private String expired = "N";
+
+    @Column(name = "USER_ID")
+    private Long userId;
 
 //    @ManyToOne
 //    @JoinColumn(name = "USER_ID")

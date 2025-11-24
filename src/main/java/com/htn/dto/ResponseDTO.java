@@ -1,33 +1,32 @@
 package com.htn.dto;
 
 import com.htn.constant.StatusConstant;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.htn.i18n.AuthMessages;
+import lombok.*;
 
-import java.time.Instant;
+import java.util.Date;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseDTO<T> {
     private int code;
     private String status;
-    private Instant date = Instant.now();
+    private Date date;
     private String message;
     private T data;
 
-    public static <T> ResponseDTO<T> ok(T data) {
-        return new ResponseDTO<>(200, StatusConstant.SUCCESS.toString(), Instant.now(),"Response data successfully!", data);
+    public static <T> ResponseDTO<T> ok(String message) {
+        return new ResponseDTO<>(200, StatusConstant.SUCCESS.toString(), new Date(),message, null);
     }
 
     public static <T> ResponseDTO<T> ok(String message, T data) {
-        return new ResponseDTO<>(200, StatusConstant.SUCCESS.toString(), Instant.now(), message, data);
+        return new ResponseDTO<>(200, StatusConstant.SUCCESS.toString(), new Date(), message, data);
     }
 
     public static <T> ResponseDTO<T> error(int code, String message, T data) {
-        return new ResponseDTO<>(code, StatusConstant.FAIL.toString(),Instant.now(), message, data);
+        return new ResponseDTO<>(code, StatusConstant.FAIL.toString(),new Date(), message, data);
     }
 }
 

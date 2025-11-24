@@ -17,9 +17,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<?> handleCustomException(GlobalException exp, WebRequest request){
         log.error(exp.getMessage());
-        ResponseDTO<?> responseDTO = ResponseDTO.ok(exp.getCode().value()
-                ,exp.getMessage(),
-                request.getDescription(false));
+        ResponseDTO<?> responseDTO = ResponseDTO.error(exp.getCode().value()
+                                                    ,exp.getMessage(),
+                                                    request.getDescription(false));
         return ResponseEntity.status(exp.getCode()).body(responseDTO);
     }
 
@@ -28,8 +28,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleGlobalException(Exception exp, WebRequest request){
         log.error(exp.getMessage());
         ResponseDTO<?> responseDTO = ResponseDTO.error(HttpStatus.INTERNAL_SERVER_ERROR.value()
-        ,exp.getMessage(),
-        request.getDescription(false));
+                                                    ,exp.getMessage(),
+                                                    request.getDescription(false));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
     }
 }
