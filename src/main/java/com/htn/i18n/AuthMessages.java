@@ -5,7 +5,8 @@ public enum AuthMessages implements MessageKey {
     AUTH_LOGIN_FAIL("auth.login-fail"),
     AUTH_INVALID_CREDENTIALS("auth.invalid-credentials"),
     AUTH_ACCESS_DENIED("auth.access-denied"),
-    AUTH_TOKEN_EXPIRED("auth.token-expired");
+    AUTH_TOKEN_EXPIRED("auth.token-expired"),
+    AUTH_TOKEN_NOT_EXITS("auth.refresh-token-not-exists");
 
     private final String key;
     AuthMessages(String key) {this.key = key;}

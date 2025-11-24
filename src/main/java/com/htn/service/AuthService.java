@@ -5,4 +5,5 @@ import com.htn.dto.LoginDTO;
 
 public interface AuthService {
     AuthResponseDTO login(LoginDTO loginDTO);
+    AuthResponseDTO refreshToken(String refreshToken);
 }

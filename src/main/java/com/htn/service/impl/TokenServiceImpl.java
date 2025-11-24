@@ -66,6 +66,24 @@ public class TokenServiceImpl implements TokenService {
                             .userId(userDetails.getId())
                             .build());
     }
+    @Override
+    public Token refreshToken(String refreshToken){
+        Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(
+                () -> new UnauthorizedException(i18n.translate(AuthMessages.AUTH_TOKEN_NOT_EXITS))
+        );
+        if(token.getRefreshExpirationDate().before(new Date())){
+            throw new UnauthorizedException(i18n.translate(AuthMessages.AUTH_TOKEN_EXPIRED));
+        }
+
+        //đang làm tới đây
+        CustomUserDetails customUserDetails = CustomUserDetails.build(token.getUser());
+        String newToken = jwtTokenProvider.generateJwtToken(customUserDetails);
+
+        token.setRefreshToken(UUID.randomUUID().toString());
+        token.setRefreshExpirationDate(new Date(new Date().getTime() + refreshExpiration));
+        return tokenRepository.save(token);
+    }
+
 
     //kiểm tra xem đăng nhập trên MB/PC
     public String detectDevice(String userAgent) {

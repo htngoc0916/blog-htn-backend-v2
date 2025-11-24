@@ -30,7 +30,6 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private TokenService tokenService;
 
-
     @Autowired
     private LocalizationService i18n;
 
@@ -47,6 +46,17 @@ public class AuthServiceImpl implements AuthService {
         Token resultToken = tokenService.addTokenToLogin(token);
         return AuthResponseDTO.builder()
                 .accessToken(token)
+                .refreshToken(resultToken.getRefreshToken())
+                .expiresIn(resultToken.getExpirationDate())
+                .refreshExpiresIn(resultToken.getRefreshExpirationDate())
+                .build();
+    }
+
+    @Override
+    public AuthResponseDTO refreshToken(String refreshToken) {
+        Token resultToken = tokenService.refreshToken(refreshToken);
+        return AuthResponseDTO.builder()
+                .accessToken(resultToken.getToken())
                 .refreshToken(resultToken.getRefreshToken())
                 .expiresIn(resultToken.getExpirationDate())
                 .refreshExpiresIn(resultToken.getRefreshExpirationDate())
