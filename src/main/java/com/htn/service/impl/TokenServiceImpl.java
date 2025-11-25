@@ -1,6 +1,7 @@
 package com.htn.service.impl;
 
 import com.htn.entity.Token;
+import com.htn.entity.User;
 import com.htn.exception.UnauthorizedException;
 import com.htn.i18n.AuthMessages;
 import com.htn.i18n.LocalizationService;
@@ -69,18 +70,29 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public Token refreshToken(String refreshToken){
         Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(
-                () -> new UnauthorizedException(i18n.translate(AuthMessages.AUTH_TOKEN_NOT_EXITS))
+                () -> new UnauthorizedException(i18n.translate(AuthMessages.AUTH_TOKEN_EXPIRED))
         );
         if(token.getRefreshExpirationDate().before(new Date())){
             throw new UnauthorizedException(i18n.translate(AuthMessages.AUTH_TOKEN_EXPIRED));
         }
 
         //đang làm tới đây
-        CustomUserDetails customUserDetails = CustomUserDetails.build(token.getUser());
-        String newToken = jwtTokenProvider.generateJwtToken(customUserDetails);
+        User user = userRepository.findById(token.getUserId()).orElseThrow(
+                () -> new UnauthorizedException(i18n.translate(AuthMessages.AUTH_TOKEN_EXPIRED))
+        );
 
+        //tạo ra refresh token và access token mới
+        CustomUserDetails customUserDetails = CustomUserDetails.build(user);
+        String newToken = jwtTokenProvider.generateJwtToken(customUserDetails);
+        Date curentDate = new Date();
+        Date expirationDateTime = new Date(curentDate.getTime() + expiration);
+        Date refreshExpirationDateTime = new Date(curentDate.getTime() + refreshExpiration);
+
+        token.setToken(newToken);
+        token.setExpirationDate(expirationDateTime);
         token.setRefreshToken(UUID.randomUUID().toString());
-        token.setRefreshExpirationDate(new Date(new Date().getTime() + refreshExpiration));
+        token.setRefreshExpirationDate(refreshExpirationDateTime);
+
         return tokenRepository.save(token);
     }
 

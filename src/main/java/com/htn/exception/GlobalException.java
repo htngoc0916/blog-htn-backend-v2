@@ -10,7 +10,7 @@ public class GlobalException extends RuntimeException {
 
     public GlobalException(String message) {
         super(message);
-        this.code = HttpStatus.INTERNAL_SERVER_ERROR;
+        this.code = HttpStatus.BAD_REQUEST;
         this.message = message;
     }
 

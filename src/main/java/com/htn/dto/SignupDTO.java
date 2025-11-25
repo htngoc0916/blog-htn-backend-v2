@@ -1,21 +1,15 @@
 package com.htn.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class UserResponseDTO {
-    Long id;
+public class SignupDTO {
     private String userName;
     private String email;
-    private String avatar;
-    private String verifyYn;
-    private List<String> role;
+    private String password;
+    private String regId;
 }

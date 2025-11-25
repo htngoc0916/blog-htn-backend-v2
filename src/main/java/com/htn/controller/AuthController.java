@@ -1,6 +1,8 @@
 package com.htn.controller;
 
 import com.htn.dto.LoginDTO;
+import com.htn.dto.RefreshTokenDTO;
+import com.htn.dto.UserDTO;
 import com.htn.i18n.AuthMessages;
 import com.htn.service.AuthService;
 import jakarta.validation.Valid;
@@ -21,5 +23,15 @@ public class AuthController extends BaseController{
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginDTO loginDTO){
         return response(authService.login(loginDTO), AuthMessages.AUTH_LOGIN_SUCCESS);
+    }
+
+    @PostMapping(value = "/refresh-token")
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenDTO refreshTokenDTO){
+        return response(authService.refreshToken(refreshTokenDTO.getRefreshToken()), AuthMessages.AUTH_REFRESH_TOKEN_SUCCESS);
+    }
+
+    @PostMapping(value = "/sign-up")
+    public ResponseEntity<?> signup(@Valid @RequestBody UserDTO userDTO){
+        return response(authService.signup(userDTO), AuthMessages.AUTH_SIGNUP_SUCCESS);
     }
 }

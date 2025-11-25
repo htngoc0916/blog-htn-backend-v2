@@ -1,7 +1,8 @@
 package com.htn.controller;
 
+import com.htn.dto.ResponseDTO;
+import com.htn.i18n.LocalizationService;
 import com.htn.i18n.MessageKey;
-import com.htn.utils.ResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,20 +10,21 @@ import org.springframework.http.ResponseEntity;
 @RequiredArgsConstructor
 public abstract class BaseController {
     @Autowired
-    protected ResponseFactory responseFactory;
+    protected LocalizationService i18n;
 
     //response with messages key {}
     protected ResponseEntity<?> response(MessageKey messageKey, Object... args) {
-        return ResponseEntity.ok(responseFactory.ok(messageKey, args));
+        String msg = i18n.translate(messageKey, args);
+        return ResponseEntity.ok(ResponseDTO.ok(msg));
     }
 
     //response with messages key and data
     protected <T> ResponseEntity<?> response(T data, MessageKey messageKey, Object... args) {
-        return ResponseEntity.ok(responseFactory.ok(data, messageKey, args));
+        return ResponseEntity.ok(ResponseDTO.ok(i18n.translate(messageKey, args), data));
     }
 
     //response error with status code and messages key
     protected ResponseEntity<?> error(int status, MessageKey messageKey, Object... args) {
-        return ResponseEntity.status(status).body(responseFactory.error(status, messageKey, args));
+        return ResponseEntity.status(status).body(ResponseDTO.error(status, i18n.translate(messageKey, args), null));
     }
 }

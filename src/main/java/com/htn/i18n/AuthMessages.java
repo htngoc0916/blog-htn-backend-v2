@@ -3,10 +3,11 @@ package com.htn.i18n;
 public enum AuthMessages implements MessageKey {
     AUTH_LOGIN_SUCCESS("auth.login-success"),
     AUTH_LOGIN_FAIL("auth.login-fail"),
+    AUTH_SIGNUP_SUCCESS("auth.signup-success"),
     AUTH_INVALID_CREDENTIALS("auth.invalid-credentials"),
     AUTH_ACCESS_DENIED("auth.access-denied"),
     AUTH_TOKEN_EXPIRED("auth.token-expired"),
-    AUTH_TOKEN_NOT_EXITS("auth.refresh-token-not-exists");
+    AUTH_REFRESH_TOKEN_SUCCESS("auth.refresh-token-success");
 
     private final String key;
     AuthMessages(String key) {this.key = key;}

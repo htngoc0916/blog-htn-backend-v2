@@ -2,12 +2,16 @@ package com.htn.service.impl;
 
 import com.htn.dto.AuthResponseDTO;
 import com.htn.dto.LoginDTO;
+import com.htn.dto.UserDTO;
+import com.htn.dto.UserResponseDTO;
+import com.htn.entity.Role;
 import com.htn.entity.Token;
-import com.htn.i18n.LocalizationService;
+import com.htn.entity.User;
 import com.htn.security.custom.CustomUserDetails;
 import com.htn.security.jwt.JwtTokenProvider;
 import com.htn.service.AuthService;
 import com.htn.service.TokenService;
+import com.htn.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +21,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Random;
 
 @Service
 @Slf4j
@@ -29,9 +36,8 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private TokenService tokenService;
-
     @Autowired
-    private LocalizationService i18n;
+    private UserService userService;
 
     @Override
     public AuthResponseDTO login(LoginDTO loginDTO) {
@@ -40,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         //lưu thông tin người dùng đã login
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        //tạo token
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String token = jwtTokenProvider.generateJwtToken(userDetails);
         Token resultToken = tokenService.addTokenToLogin(token);
@@ -60,6 +66,17 @@ public class AuthServiceImpl implements AuthService {
                 .refreshToken(resultToken.getRefreshToken())
                 .expiresIn(resultToken.getExpirationDate())
                 .refreshExpiresIn(resultToken.getRefreshExpirationDate())
+                .build();
+    }
+
+    @Override
+    public UserResponseDTO signup(UserDTO userDTO){
+        User user = userService.addUser(userDTO);
+        List<String> roles = user.getRoles().stream().map(Role::getRoleName).toList();
+        return UserResponseDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .role(roles)
                 .build();
     }
 }

@@ -1,7 +1,10 @@
 package com.htn.dto;
 
+import com.htn.constant.RoleConstant;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
 @Setter
@@ -9,7 +12,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDTO {
+public class UserDTO implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String email;
     private String password;
@@ -17,7 +23,8 @@ public class UserDTO {
     private String avatar;
     @Builder.Default
     private String usedYn = "Y";
-    private String role;
+    @Builder.Default
+    private String role = RoleConstant.ROLE_USER.toString();
 
     private String loginType;
     private String ssoId;
