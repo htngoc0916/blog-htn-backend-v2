@@ -1,4 +1,4 @@
-package com.htn.config;
+package com.htn.constant;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @Configuration
-public class ApiPathsConfig {
+public class ApiPathConstant {
     private List<String> publicPatterns;
     private List<String> publicGet;
     private List<String> publicPut;

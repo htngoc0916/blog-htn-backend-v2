@@ -23,7 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 @Slf4j
@@ -50,6 +49,10 @@ public class AuthServiceImpl implements AuthService {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String token = jwtTokenProvider.generateJwtToken(userDetails);
         Token resultToken = tokenService.addTokenToLogin(token);
+        log.debug("This is DEBUG log");
+        log.info("This is INFO log");
+        log.warn("This is WARN log");
+        log.error("This is ERROR log");
         return AuthResponseDTO.builder()
                 .accessToken(token)
                 .refreshToken(resultToken.getRefreshToken())
@@ -75,7 +78,10 @@ public class AuthServiceImpl implements AuthService {
         List<String> roles = user.getRoles().stream().map(Role::getRoleName).toList();
         return UserResponseDTO.builder()
                 .id(user.getId())
+                .userName(user.getUserName())
                 .email(user.getEmail())
+                .verifyYn(user.getVerifyYn())
+                .usedYn(user.getUsedYn())
                 .role(roles)
                 .build();
     }

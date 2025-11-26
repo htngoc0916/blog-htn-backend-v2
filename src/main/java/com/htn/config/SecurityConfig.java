@@ -1,5 +1,6 @@
 package com.htn.config;
 
+import com.htn.constant.ApiPathConstant;
 import com.htn.security.jwt.JwtEntryPoint;
 import com.htn.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ public class SecurityConfig {
 
     private final JwtEntryPoint jwtEntryPoint;
     private final JwtFilter jwtFilter;
-    private final  ApiPathsConfig apiPathsConfig;
+    private final ApiPathConstant apiPathsConfig;
 
     @Value("${blog.cors.url}")
     private List<String> corsUrl;

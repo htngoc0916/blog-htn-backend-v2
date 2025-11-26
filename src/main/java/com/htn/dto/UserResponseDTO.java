@@ -13,9 +13,10 @@ import java.util.List;
 @Builder
 public class UserResponseDTO {
     Long id;
-    private String userName;
     private String email;
+    private String userName;
     private String avatar;
     private String verifyYn;
+    private String usedYn;
     private List<String> role;
 }

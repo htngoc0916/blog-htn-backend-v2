@@ -9,10 +9,10 @@ import com.htn.exception.GlobalException;
 import com.htn.i18n.CommonMessages;
 import com.htn.i18n.LocalizationService;
 import com.htn.i18n.UserMessages;
+import com.htn.mapper.UserMapper;
 import com.htn.repository.RoleRepository;
 import com.htn.repository.UserRepository;
 import com.htn.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private LocalizationService i18n;
     @Autowired
-    private ModelMapper modelMapper;
+    private UserMapper userMapper;
 
 
     @Override
@@ -61,10 +61,10 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByRoleName(userDTO.getRole()).orElseThrow(
                 () -> new GlobalException(i18n.translate(CommonMessages.COMMON_NOT_FOUND, userDTO.getRole()))
         );
-        //set user info
-        User user = modelMapper.map(userDTO, User.class);
-        user.setRoles(List.of(role));
 
+        //set user info
+        User user = userMapper.toEntity(userDTO);
+        user.setRoles(List.of(role));
         return userRepository.save(user);
     }
 

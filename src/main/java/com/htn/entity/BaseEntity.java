@@ -10,6 +10,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -17,10 +19,12 @@ import java.util.Date;
 @NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity{
+public abstract class BaseEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Column(name = "USED_YN", length = 1)
-    private String usedYn;
+    private String usedYn = "Y";
 
     @CreatedDate
     @Column(name = "REG_DT", updatable = false)
@@ -31,10 +35,10 @@ public abstract class BaseEntity{
     private String regId;
 
     @LastModifiedDate
-    @Column(name = "MOD_DT")
+    @Column(name = "MOD_DT", insertable = false)
     private Date modDt;
 
     @LastModifiedBy
-    @Column(name = "MOD_ID")
+    @Column(name = "MOD_ID", insertable = false)
     private String modId;
 }

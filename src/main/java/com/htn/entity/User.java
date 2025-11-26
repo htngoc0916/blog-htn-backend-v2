@@ -16,10 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Builder
-public class User extends BaseEntity implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
