@@ -21,4 +21,8 @@ public class CommonConstant {
     //token
     @Value( "${common.max-auth-token}")
     public static int MAX_AUTH_TOKEN;
+
+    //verify code (minute)
+    @Value( "${common.verify-code-expire-time}")
+    public static int VERIFY_CODE_EXPIRE_TIME;
 }

@@ -1,9 +1,6 @@
 package com.htn.service.impl;
 
-import com.htn.dto.AuthResponseDTO;
-import com.htn.dto.LoginDTO;
-import com.htn.dto.UserDTO;
-import com.htn.dto.UserResponseDTO;
+import com.htn.dto.*;
 import com.htn.entity.Role;
 import com.htn.entity.Token;
 import com.htn.entity.User;
@@ -49,10 +46,6 @@ public class AuthServiceImpl implements AuthService {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String token = jwtTokenProvider.generateJwtToken(userDetails);
         Token resultToken = tokenService.addTokenToLogin(token);
-        log.debug("This is DEBUG log");
-        log.info("This is INFO log");
-        log.warn("This is WARN log");
-        log.error("This is ERROR log");
         return AuthResponseDTO.builder()
                 .accessToken(token)
                 .refreshToken(resultToken.getRefreshToken())
@@ -74,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserResponseDTO signup(UserDTO userDTO){
-        User user = userService.addUser(userDTO);
+        User user = userService.clientAddUser(userDTO);
         List<String> roles = user.getRoles().stream().map(Role::getRoleName).toList();
         return UserResponseDTO.builder()
                 .id(user.getId())
@@ -84,5 +77,15 @@ public class AuthServiceImpl implements AuthService {
                 .usedYn(user.getUsedYn())
                 .role(roles)
                 .build();
+    }
+
+    @Override
+    public boolean verifyCode(VerifyCodeDTO verifyCodeDTO) {
+        return userService.verifyCode(verifyCodeDTO);
+    }
+
+    @Override
+    public boolean sendVerifyCode(String email) {
+        return userService.sendVerifyCode(email);
     }
 }

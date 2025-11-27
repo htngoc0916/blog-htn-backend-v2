@@ -1,6 +1,7 @@
 package com.htn.controller;
 
 import com.htn.dto.ResponseDTO;
+import com.htn.i18n.CommonMessages;
 import com.htn.i18n.LocalizationService;
 import com.htn.i18n.MessageKey;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,10 @@ public abstract class BaseController {
     protected ResponseEntity<?> response(MessageKey messageKey, Object... args) {
         String msg = i18n.translate(messageKey, args);
         return ResponseEntity.ok(ResponseDTO.ok(msg));
+    }
+    //response with data and common success message
+    protected <T> ResponseEntity<?> response(T data) {
+        return ResponseEntity.ok(ResponseDTO.ok(i18n.translate(CommonMessages.COMMON_SUCCESS), data));
     }
 
     //response with messages key and data
