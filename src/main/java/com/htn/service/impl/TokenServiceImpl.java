@@ -10,6 +10,7 @@ import com.htn.repository.UserRepository;
 import com.htn.security.custom.CustomUserDetails;
 import com.htn.security.jwt.JwtTokenProvider;
 import com.htn.service.TokenService;
+import com.htn.utils.Utils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +52,10 @@ public class TokenServiceImpl implements TokenService {
         String deviceType = detectDevice(device);
 
         // Lấy user đã authenticate
-        CustomUserDetails userDetails = getUserDetailsFromSecurityContext();
+        CustomUserDetails userDetails = Utils.getUserDetailsFromSecurityContext();
+        if(userDetails == null){
+            throw new UnauthorizedException(i18n.translate(AuthMessages.AUTH_INVALID_CREDENTIALS));
+        }
 
         Date curentDate = new Date();
         Date expirationDateTime = new Date(curentDate.getTime() + expiration);
@@ -110,14 +114,5 @@ public class TokenServiceImpl implements TokenService {
             return "M";
         }
         return "P";
-    }
-
-    private CustomUserDetails getUserDetailsFromSecurityContext() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            return (CustomUserDetails) authentication.getPrincipal();
-        } else {
-            throw new UnauthorizedException(i18n.translate(AuthMessages.AUTH_INVALID_CREDENTIALS));
-        }
     }
 }

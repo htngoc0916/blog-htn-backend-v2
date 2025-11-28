@@ -1,5 +1,6 @@
-package com.htn.controller;
+package com.htn.controller.client;
 
+import com.htn.controller.BaseController;
 import com.htn.dto.LoginDTO;
 import com.htn.dto.RefreshTokenDTO;
 import com.htn.dto.UserDTO;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
-public class AuthController extends BaseController{
+public class AuthController extends BaseController {
 
     @Autowired
     private AuthService authService;

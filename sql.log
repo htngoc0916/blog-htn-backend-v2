@@ -1,0 +1,45 @@
+create table group_code_mst
+(
+    ID          int auto_increment
+        primary key,
+    GROUP_CD    varchar(32)                          not null,
+    GROUP_NM    varchar(128)                         null,
+    GROUP_LENGTH int                                  null,
+    GROUP_DES   varchar(256)                         null,
+    USED_YN     varchar(1) default 'Y'               null,
+    REG_DT      datetime   default CURRENT_TIMESTAMP null,
+    REG_ID      int                                  null,
+    MOD_DT      datetime                             null,
+    MOD_ID      int                                  null,
+    constraint GROUP_CD
+        unique (GROUP_CD)
+);
+
+
+
+-- auto-generated definition
+create table group_code_dtl
+(
+    ID          int auto_increment
+        primary key,
+    CODE_CD     varchar(32)                          not null,
+    GROUP_CD    varchar(32)                          not null,
+    CODE_NM     varchar(128)                         not null,
+    CODE_NM_ENG varchar(128)                         null,
+    CODE_DES    varchar(256)                         null,
+    PARENT_CD   varchar(32)                          null,
+    ECT_1       varchar(10)                          null,
+    ECT_2       varchar(10)                          null,
+    ECT_3       varchar(10)                          null,
+    ECT_4       varchar(10)                          null,
+    USED_YN     varchar(1) default 'Y'               null,
+    REG_DT      datetime   default CURRENT_TIMESTAMP null,
+    REG_ID      int                                  null,
+    MOD_DT      datetime                             null,
+    MOD_ID      int                                  null,
+    constraint CODE_CD
+        unique (CODE_CD),
+    constraint KF_CODE_GROUP_CODE_DETAIL
+        foreign key (GROUP_CD) references group_code_mst (GROUP_CD)
+);
+

@@ -18,5 +18,5 @@ common:
   page-size: 10
   page-number: 0
   page-sort: id,desc
-  max-auth-token: 3
+  max-auth-token: 10
   verify-code-expire-time: 10

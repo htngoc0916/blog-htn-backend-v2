@@ -36,8 +36,16 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public boolean existsEmail(String email) {
-        return userRepository.existsByEmail(email);
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException(i18n.translate(UserMessages.USER_NOT_FOUND))
+        );
+    }
+    @Override
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException(i18n.translate(UserMessages.USER_NOT_FOUND))
+        );
     }
 
     @Override
@@ -46,7 +54,6 @@ public class UserServiceImpl implements UserService {
         User user = mappingUser(userDTO);
         return userRepository.save(user);
     }
-
 
     @Override
     public User clientAddUser(UserDTO userDTO) {
@@ -58,10 +65,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(Long userId, UserDTO userDTO) {
+        User user = getUserById(userId);
+        userMapper.updateFromDto(userDTO, user);
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public boolean deleteUser(Long userId) {
+        User user = getUserById(userId);
+        user.setUsedYn("N");
+        userRepository.save(user);
+        return true;
+    }
+
+    @Override
+    public boolean existsEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
     public boolean sendVerifyCode(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(i18n.translate(UserMessages.USER_NOT_FOUND))
-        );
+        User user = getUserByEmail(email);
         user.setEmailSendYn("N");
         user.setVerifyYn("N");
         user.setEmailSendDt(new Date());
@@ -70,11 +96,10 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+
     @Override
     public boolean verifyCode(VerifyCodeDTO verifyCodeDTO) {
-        User user = userRepository.findByEmail(verifyCodeDTO.getEmail()).orElseThrow(
-                () -> new NotFoundException(i18n.translate(UserMessages.USER_NOT_FOUND))
-        );
+        User user = getUserByEmail(verifyCodeDTO.getEmail());
         //check verify code
         if(verifyCodeDTO.getCode().length() != 6 ||
                 !verifyCodeDTO.getCode().equals(user.getVerifyCode())){
