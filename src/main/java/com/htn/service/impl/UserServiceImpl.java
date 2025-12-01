@@ -1,6 +1,7 @@
 package com.htn.service.impl;
 
 import com.htn.constant.CommonConstant;
+import com.htn.dto.PageResponseDTO;
 import com.htn.dto.UserDTO;
 import com.htn.dto.VerifyCodeDTO;
 import com.htn.entity.Role;
@@ -46,6 +47,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email).orElseThrow(
                 () -> new NotFoundException(i18n.translate(UserMessages.USER_NOT_FOUND))
         );
+    }
+
+    @Override
+    public PageResponseDTO<User> getPaginationUsers(int page, int size) {
+        return null;
     }
 
     @Override

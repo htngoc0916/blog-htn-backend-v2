@@ -32,7 +32,7 @@ public abstract class BaseEntity implements Serializable {
 
     @CreatedBy
     @Column(name = "REG_ID", updatable = false)
-    private String regId;
+    private Long regId;
 
     @LastModifiedDate
     @Column(name = "MOD_DT", insertable = false)
@@ -40,5 +40,5 @@ public abstract class BaseEntity implements Serializable {
 
     @LastModifiedBy
     @Column(name = "MOD_ID", insertable = false)
-    private String modId;
+    private Long modId;
 }

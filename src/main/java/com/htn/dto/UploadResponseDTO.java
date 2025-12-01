@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UploadResponseDTO {
     private Long id;
+    private String fileTitle;
     private String filePath;
     private String fileName;
     private String fileOriginalName;
@@ -18,6 +19,5 @@ public class UploadResponseDTO {
     private Long fileSize;
     @Builder.Default
     private String usedYn = "Y";
-    @Builder.Default
-    private String publicId = "0";
+    private Long regId;
 }

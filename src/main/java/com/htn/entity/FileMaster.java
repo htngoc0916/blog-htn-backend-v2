@@ -15,9 +15,10 @@ public class FileMaster extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
-
-    @Column(name = "FILE_URL")
-    private String fileUrl;
+    @Column(name = "FILE_TITLE")
+    private String fileTitle;
+    @Column(name = "FILE_PATH")
+    private String filePath;
     @Column(name = "FILE_NAME")
     private String fileName;
     @Column(name = "FILE_ORIGINAL_NAME")

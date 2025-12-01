@@ -4,6 +4,10 @@ import com.htn.dto.UserDTO;
 import com.htn.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +32,17 @@ public class UserController extends BaseController {
     public ResponseEntity<?> existsEmail(@PathVariable("email") String email){
         return response(userService.existsEmail(email));
     }
+
+    @GetMapping()
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public ResponseEntity<?> getUsers(@SortDefault.SortDefaults({ @SortDefault(sort = "id", direction = Sort.Direction.DESC)})
+                                        @PageableDefault Pageable pageable,
+                                        @RequestParam(value = "usedYn", required = false) String usedYn,
+                                        @RequestParam(value = "userName", required = false) String userName){
+        //đang làm tới đây
+        return null;
+    }
+
 
     @PostMapping
     @PreAuthorize(value = "hasRole('ADMIN')")

@@ -1,5 +1,6 @@
 package com.htn.service;
 
+import com.htn.dto.PageResponseDTO;
 import com.htn.dto.UserDTO;
 import com.htn.dto.VerifyCodeDTO;
 import com.htn.entity.User;
@@ -12,6 +13,7 @@ public interface UserService {
     //get
     User getUserById(Long userId);
     User getUserByEmail(String email);
+    PageResponseDTO<User> getPaginationUsers(int page, int size);
 
     //add
     User addUser(UserDTO userDTO);
