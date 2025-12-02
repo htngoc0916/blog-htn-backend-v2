@@ -13,10 +13,5 @@ api:
       - /api/v1/contacts/send-idea
       - /api/v1/contacts/send-contact
 
-common:
-  password: htn@123456
-  page-size: 10
-  page-number: 0
-  page-sort: id,desc
-  max-auth-token: 10
+auth:
   verify-code-expire-time: 10

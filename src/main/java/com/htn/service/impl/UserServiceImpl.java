@@ -1,8 +1,8 @@
 package com.htn.service.impl;
 
-import com.htn.constant.CommonConstant;
 import com.htn.dto.PageResponseDTO;
 import com.htn.dto.UserDTO;
+import com.htn.dto.UserSearchDTO;
 import com.htn.dto.VerifyCodeDTO;
 import com.htn.entity.Role;
 import com.htn.entity.User;
@@ -16,14 +16,17 @@ import com.htn.mapper.UserMapper;
 import com.htn.repository.RoleRepository;
 import com.htn.repository.UserRepository;
 import com.htn.service.UserService;
+import com.htn.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.htn.utils.Utils.generateVerificationCode;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,6 +38,8 @@ public class UserServiceImpl implements UserService {
     private LocalizationService i18n;
     @Autowired
     private UserMapper userMapper;
+    @Value("${auth.verify-code-expire-time}")
+    private int verifyCodeExpireTime;
 
     @Override
     public User getUserById(Long userId) {
@@ -50,8 +55,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageResponseDTO<User> getPaginationUsers(int page, int size) {
-        return null;
+    public PageResponseDTO<User> getPaginationUsers(UserSearchDTO searchDTO, Pageable pageable) {
+
+        //validation
+        Utils.paginationValidate(pageable);
+
+        //check search params
+        Page<User> resultPage;
+        if (StringUtils.hasText(searchDTO.getUserName()) && StringUtils.hasText(searchDTO.getUsedYn())) {
+            //tìm kiếm theo tên và usedYn
+            resultPage = userRepository.findByUserNameContainingAndUsedYn(searchDTO.getUserName(), searchDTO.getUsedYn(), pageable);
+        } else if (StringUtils.hasText(searchDTO.getUserName())) {
+            //tìm kiếm theo tên
+            resultPage = userRepository.findByUserNameContaining(searchDTO.getUserName(), pageable);
+        } else if (StringUtils.hasText(searchDTO.getUsedYn())) {
+            //tìm kiếm theo usedYn
+            resultPage = userRepository.findByUsedYn(searchDTO.getUsedYn(), pageable);
+        } else {
+            //không có đk
+            resultPage = userRepository.findAll(pageable);
+        }
+
+        return PageResponseDTO.of(resultPage);
     }
 
     @Override
@@ -66,7 +91,7 @@ public class UserServiceImpl implements UserService {
         User user = mappingUser(userDTO);
         //set user info
         user.setVerifyYn("N");
-        user.setVerifyCode(generateVerificationCode());
+        user.setVerifyCode(Utils.generateVerificationCode());
         return userRepository.save(user);
     }
 
@@ -97,7 +122,7 @@ public class UserServiceImpl implements UserService {
         user.setEmailSendYn("N");
         user.setVerifyYn("N");
         user.setEmailSendDt(new Date());
-        user.setVerifyCode(generateVerificationCode());
+        user.setVerifyCode(Utils.generateVerificationCode());
         userRepository.save(user);
         return true;
     }
@@ -117,7 +142,7 @@ public class UserServiceImpl implements UserService {
             Date currentTime = new Date();
             long time = currentTime.getTime() - sendDt.getTime();
             long diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(time);
-            if (diffInMinutes > CommonConstant.VERIFY_CODE_EXPIRE_TIME) {
+            if (diffInMinutes > verifyCodeExpireTime) {
                 throw new NotFoundException(i18n.translate(AuthMessages.AUTH_VERIFY_CODE_INCORRECT));
             }
         }

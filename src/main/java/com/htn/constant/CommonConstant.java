@@ -1,28 +1,11 @@
 package com.htn.constant;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
-
-@Setter
-@Getter
 public class CommonConstant {
-    @Value( "${common.password}")
-    public static String PASSWORD;
+    public static final String DEFAULT_PASSWORD = "htn123@@";
 
-    //pagination
-    @Value( "${common.page-size}")
-    public static int PAGE_SIZE_DEFAULT;
-    @Value( "${common.page-number}")
-    public static int PAGE_NUMBER_DEFAULT;
-    @Value( "${common.page-sort}")
-    public static String PAGE_SORT_DEFAULT;
+    //page setting
+    public static final int MAX_PAGE_SIZE = 100;
 
     //token
-    @Value( "${common.max-auth-token}")
-    public static int MAX_AUTH_TOKEN;
-
-    //verify code (minute)
-    @Value( "${common.verify-code-expire-time}")
-    public static int VERIFY_CODE_EXPIRE_TIME;
+    public static final int MAX_AUTH_TOKEN = 10;
 }

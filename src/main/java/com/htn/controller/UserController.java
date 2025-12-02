@@ -41,8 +41,7 @@ public class UserController extends BaseController {
     public ResponseEntity<?> getAllUsers(@SortDefault(sort = "id", direction = Sort.Direction.DESC)
                                              @PageableDefault Pageable pageable,
                                          @ModelAttribute UserSearchDTO userSearchDTO){
-
-        return null;
+        return response(userService.getPaginationUsers(userSearchDTO, pageable));
     }
 
     @PostMapping

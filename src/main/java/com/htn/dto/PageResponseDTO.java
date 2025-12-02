@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -13,9 +14,25 @@ import java.util.List;
 @Builder
 public class PageResponseDTO<T> {
     private List<T> data;
-    private Integer pageNo;
+    private Integer page;
     private Integer pageSize;
+    //tổng các rows có trong DB
     private Long totalElements;
+    //tổng trang
     private Integer totalPage;
     private boolean last;
+
+    //khai báo ntn để ko phải tạo object trước, rồi mới gọi.
+    //mà gọi trực tiếp luôn
+    public static <T> PageResponseDTO<T> of(Page<T> page) {
+        return PageResponseDTO.<T>builder()
+                .data(page.getContent())
+                .page(page.getNumber() + 1)
+                .pageSize(page.getSize())
+                .totalElements(page.getTotalElements())
+                .totalPage(page.getTotalPages())
+                .last(page.isLast())
+                .build();
+    }
+
 }

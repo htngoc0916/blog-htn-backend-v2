@@ -2,8 +2,10 @@ package com.htn.service;
 
 import com.htn.dto.PageResponseDTO;
 import com.htn.dto.UserDTO;
+import com.htn.dto.UserSearchDTO;
 import com.htn.dto.VerifyCodeDTO;
 import com.htn.entity.User;
+import org.springframework.data.domain.Pageable;
 
 public interface UserService {
     boolean existsEmail(String email);
@@ -13,7 +15,7 @@ public interface UserService {
     //get
     User getUserById(Long userId);
     User getUserByEmail(String email);
-    PageResponseDTO<User> getPaginationUsers(int page, int size);
+    PageResponseDTO<User> getPaginationUsers(UserSearchDTO searchDTO, Pageable pageable);
 
     //add
     User addUser(UserDTO userDTO);
