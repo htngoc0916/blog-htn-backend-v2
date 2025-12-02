@@ -8,6 +8,6 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface FileMasterMapper {
     FileMaster toEntity(UploadResponseDTO dto);
-    UploadResponseDTO toResponseDto(FileMaster fileMaster);
-    void updateFromDto(UploadResponseDTO dto, @MappingTarget FileMaster fileMaster);
+    UploadResponseDTO toResponseDto(FileMaster entity);
+    void updateFromDto(UploadResponseDTO dto, @MappingTarget FileMaster entity);
 }

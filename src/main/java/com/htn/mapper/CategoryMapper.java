@@ -1,11 +1,12 @@
 package com.htn.mapper;
 
+import com.htn.dto.CategoryDTO;
 import com.htn.dto.UserDTO;
+import com.htn.entity.Category;
 import com.htn.entity.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper extends BaseMapper<User, UserDTO> {
+public interface CategoryMapper extends BaseMapper<Category, CategoryDTO> {
 }

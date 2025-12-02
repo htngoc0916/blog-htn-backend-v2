@@ -7,9 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public interface MenuMapper {
-    Menu toEntity(MenuDTO dto);
-    MenuDTO toDto(Menu menu);
-    MenuResponseDTO toResponseDto(Menu menu);
-    void updateFromDto(MenuDTO dto, @MappingTarget Menu menu);
+public interface MenuMapper extends BaseMapper<Menu, MenuDTO> {
+    MenuResponseDTO toResponseDto(Menu entity);
+    void updateFromDto(MenuDTO dto, @MappingTarget Menu entity);
 }

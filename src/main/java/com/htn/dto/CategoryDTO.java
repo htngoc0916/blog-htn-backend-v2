@@ -1,0 +1,17 @@
+package com.htn.dto;
+
+import lombok.*;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CategoryDTO {
+    private Long id;
+    private String categoryName;
+    private String description;
+    private String usedYn;
+    private Long regId;
+    private Long modId;
+}
