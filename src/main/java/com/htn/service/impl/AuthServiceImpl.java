@@ -4,6 +4,9 @@ import com.htn.dto.*;
 import com.htn.entity.Role;
 import com.htn.entity.Token;
 import com.htn.entity.User;
+import com.htn.exception.UnauthorizedException;
+import com.htn.i18n.AuthMessages;
+import com.htn.i18n.LocalizationService;
 import com.htn.security.custom.CustomUserDetails;
 import com.htn.security.jwt.JwtTokenProvider;
 import com.htn.service.AuthService;
@@ -14,6 +17,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,12 +38,14 @@ public class AuthServiceImpl implements AuthService {
     private TokenService tokenService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private LocalizationService i18n;
 
     @Override
     public AuthResponseDTO login(LoginDTO loginDTO) {
         //xác thực bằng loadUserByUsername
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword());
-        Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        Authentication authentication = authenticate(loginDTO.getEmail(), loginDTO.getPassword());
+
         //lưu thông tin người dùng đã login
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //tạo token
@@ -52,6 +58,17 @@ public class AuthServiceImpl implements AuthService {
                 .expiresIn(resultToken.getExpirationDate())
                 .refreshExpiresIn(resultToken.getRefreshExpirationDate())
                 .build();
+    }
+
+    private Authentication authenticate(String userEmail, String password) {
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userEmail, password);
+        try {
+            return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        }
+        catch(BadCredentialsException ex) {
+            log.error("Invalid email or password");
+            throw new UnauthorizedException(i18n.translate(AuthMessages.AUTH_INVALID_CREDENTIALS));
+        }
     }
 
     @Override

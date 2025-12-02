@@ -1,8 +1,10 @@
 package com.htn.controller;
 
 import com.htn.dto.UserDTO;
+import com.htn.dto.UserSearchDTO;
 import com.htn.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/admin/users")
 public class UserController extends BaseController {
@@ -35,14 +38,12 @@ public class UserController extends BaseController {
 
     @GetMapping()
     @PreAuthorize(value = "hasRole('ADMIN')")
-    public ResponseEntity<?> getUsers(@SortDefault.SortDefaults({ @SortDefault(sort = "id", direction = Sort.Direction.DESC)})
-                                        @PageableDefault Pageable pageable,
-                                        @RequestParam(value = "usedYn", required = false) String usedYn,
-                                        @RequestParam(value = "userName", required = false) String userName){
-        //đang làm tới đây
+    public ResponseEntity<?> getAllUsers(@SortDefault(sort = "id", direction = Sort.Direction.DESC)
+                                             @PageableDefault Pageable pageable,
+                                         @ModelAttribute UserSearchDTO userSearchDTO){
+
         return null;
     }
-
 
     @PostMapping
     @PreAuthorize(value = "hasRole('ADMIN')")

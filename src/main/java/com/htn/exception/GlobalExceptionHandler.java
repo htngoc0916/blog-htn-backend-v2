@@ -16,7 +16,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     //Custom global exception handler
     @ExceptionHandler(GlobalException.class)
     public ResponseEntity<?> handleCustomException(GlobalException exp, WebRequest request){
-        log.error(exp.getMessage());
+        log.error("handleCustomException: {}", exp.getMessage());
         ResponseDTO<?> responseDTO = ResponseDTO.error(exp.getCode().value()
                                                     ,exp.getMessage(),
                                                     request.getDescription(false));
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     //Global exception handler
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGlobalException(Exception exp, WebRequest request){
-        log.error(exp.getMessage());
+        log.error("handleGlobalException: {}", exp.getMessage());
         ResponseDTO<?> responseDTO = ResponseDTO.error(HttpStatus.INTERNAL_SERVER_ERROR.value()
                                                     ,exp.getMessage(),
                                                     request.getDescription(false));
