@@ -4,12 +4,15 @@ import com.htn.constant.CommonConstant;
 import com.htn.exception.GlobalException;
 import com.htn.security.custom.CustomUserDetails;
 import lombok.Data;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.UUID;
 
@@ -30,17 +33,17 @@ public class Utils {
     }
 
     //get thông tin user đã authenticate
-    public static CustomUserDetails getUserDetailsFromSecurityContext(){
+    public static CustomUserDetails getUserDetailsFromSecurityContext() {
         CustomUserDetails userDetails = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             userDetails = (CustomUserDetails) authentication.getPrincipal();
         }
-        return  userDetails;
+        return userDetails;
     }
 
     //validation pageSize
-    public static void paginationValidate(Pageable pageable){
+    public static void paginationValidate(Pageable pageable) {
         int page = pageable.getPageNumber();
         int size = pageable.getPageSize();
 
@@ -55,5 +58,11 @@ public class Utils {
         if (size > CommonConstant.MAX_AUTH_TOKEN) {
             throw new GlobalException("Page size must not be greater than " + CommonConstant.MAX_AUTH_TOKEN);
         }
+    }
+
+    //get current user id
+    public static Long getCurrentUserId() {
+        CustomUserDetails user = getUserDetailsFromSecurityContext();
+        return (user != null) ? user.getId() : null;
     }
 }

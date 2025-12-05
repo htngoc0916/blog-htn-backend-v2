@@ -1,8 +1,10 @@
 package com.htn.dto;
 
 import com.htn.constant.StatusConstant;
-import com.htn.i18n.AuthMessages;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 

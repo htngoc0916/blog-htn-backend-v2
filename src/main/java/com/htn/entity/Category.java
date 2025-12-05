@@ -15,12 +15,10 @@ public class Category extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long id;
-    @Column(name = "CATEGORY_NAME", nullable = false)
-    private String categoryName;
+    @Column(name = "CATEGORY_CD", nullable = false)
+    private String categoryCd;
+    @Column(name = "CATEGORY_NM", nullable = false)
+    private String categoryNm;
     @Column(name = "DESCRIPTION")
     private String description;
-
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Post> posts;
 }

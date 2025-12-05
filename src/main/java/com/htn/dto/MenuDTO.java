@@ -18,6 +18,7 @@ public class MenuDTO {
     private String menuUrl;
     private String menuIcon;
 
+    //update info
     private String usedYn;
     private Long regId;
     private Long modId;

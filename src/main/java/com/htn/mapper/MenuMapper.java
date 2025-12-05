@@ -9,5 +9,4 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface MenuMapper extends BaseMapper<Menu, MenuDTO> {
     MenuResponseDTO toResponseDto(Menu entity);
-    void updateFromDto(MenuDTO dto, @MappingTarget Menu entity);
 }

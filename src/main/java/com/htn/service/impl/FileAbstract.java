@@ -77,14 +77,16 @@ public abstract class FileAbstract {
                 .fileOriginalName(originalName)
                 .fileType(extension)
                 .fileSize(file.getSize())
-                .regId(fileUploadDTO.getRegId())
                 .build();
     }
 
     //download
     public Resource downloadFileStore(String filePath) throws IOException {
-        Path file = Paths.get(uploadPath).resolve(filePath).normalize();
-        Resource resource = new UrlResource(file.toUri());
+//        Path file = Paths.get(uploadPath).resolve(filePath).normalize();
+//        Resource resource = new UrlResource(file.toUri());
+
+        Path path = Paths.get(uploadPath).toAbsolutePath().normalize().resolve(filePath);
+        Resource resource = new UrlResource(path.toUri());
         if (resource.exists() || resource.isReadable()) {
             return resource;
         } else {

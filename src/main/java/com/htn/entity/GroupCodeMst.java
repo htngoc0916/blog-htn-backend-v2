@@ -16,12 +16,16 @@ public class GroupCodeMst extends BaseEntity {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "GROUP_CD")
+    @Column(name = "GROUP_CD", updatable = false)
     private String groupCd;
     @Column(name = "GROUP_NM")
     private String groupNm;
-    @Column(name = "GROUP_LENGTH")
+    @Column(name = "GROUP_NM_ENG")
+    private String groupNmEng;
+    @Column(name = "GROUP_LENGTH", updatable = false)
     private Integer codeLength;
     @Column(name = "GROUP_DES")
     private String groupDes;
+    @Column(name = "GROUP_ORD")
+    private String groupOrd;
 }

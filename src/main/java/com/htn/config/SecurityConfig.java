@@ -70,7 +70,7 @@ public class SecurityConfig {
                     //public all endpoints
                     .requestMatchers(apiPathsConfig.getPublicPatterns().toArray(new String[0])).permitAll()
                     //public get endpoints
-                    .requestMatchers(HttpMethod.GET, apiPathsConfig.getPublicGet().toArray(new String[0])).permitAll()
+//                    .requestMatchers(HttpMethod.GET, apiPathsConfig.getPublicGet().toArray(new String[0])).permitAll()
                     //public put endpoints
                     .requestMatchers(HttpMethod.PUT, apiPathsConfig.getPublicPut().toArray(new String[0])).permitAll()
                     //options requests

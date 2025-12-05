@@ -31,6 +31,17 @@ public class FilesStorageController extends BaseController {
 
     @GetMapping("/{fileName:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable String fileName) {
+//        Resource file = fileMasterService.fileDownload(fileName);
+//
+//        // Lấy content type (nếu không xác định được thì dùng default)
+//        String contentType = "application/octet-stream";
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(contentType))
+//                // Dòng này QUAN TRỌNG để client tính toán %:
+//                .header(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.contentLength()))
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+//                .body(file);
         return response(fileMasterService.fileDownload(fileName));
     }
 

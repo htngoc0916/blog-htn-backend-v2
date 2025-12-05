@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -38,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private LocalizationService i18n;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Value("${auth.verify-code-expire-time}")
     private int verifyCodeExpireTime;
 
@@ -83,13 +86,16 @@ public class UserServiceImpl implements UserService {
     public User addUser(UserDTO userDTO) {
         //set user info
         User user = mappingUser(userDTO);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userRepository.save(user);
     }
 
     @Override
     public User clientAddUser(UserDTO userDTO) {
         User user = mappingUser(userDTO);
+
         //set user info
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setVerifyYn("N");
         user.setVerifyCode(Utils.generateVerificationCode());
         return userRepository.save(user);

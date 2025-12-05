@@ -9,9 +9,7 @@ import com.htn.i18n.FileMessages;
 import com.htn.i18n.LocalizationService;
 import com.htn.mapper.FileMasterMapper;
 import com.htn.repository.FileMasterRepository;
-import com.htn.security.custom.CustomUserDetails;
 import com.htn.service.FilesStorageService;
-import com.htn.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -54,10 +52,6 @@ public class FilesStorageServiceImpl extends FileAbstract implements FilesStorag
             //tao thu muc
             createDirectory();
 
-            //lay thong tin user
-            CustomUserDetails userInfo = Utils.getUserDetailsFromSecurityContext();
-            file.setRegId(userInfo.getId());
-
             //upload file
             FileMaster saved = handleUpload(file);
             log.info("upload file end");
@@ -77,10 +71,6 @@ public class FilesStorageServiceImpl extends FileAbstract implements FilesStorag
            //tao thu muc
            createDirectory();
 
-           //lay thong tin user
-           CustomUserDetails userInfo = Utils.getUserDetailsFromSecurityContext();
-           fileUploadMultipleDTO.setRegId(userInfo.getId());
-
            //upload file
            List<FileMaster> result = new ArrayList<>();
            MultipartFile[] files = fileUploadMultipleDTO.getFile();
@@ -92,7 +82,6 @@ public class FilesStorageServiceImpl extends FileAbstract implements FilesStorag
                FileUploadDTO fileUploadDTO = FileUploadDTO.builder()
                        .file(files[i])
                        .fileTitle(titles.length > i ? titles[i] : null)
-                       .regId(userInfo.getId())
                        .build();
 
                // Upload từng file

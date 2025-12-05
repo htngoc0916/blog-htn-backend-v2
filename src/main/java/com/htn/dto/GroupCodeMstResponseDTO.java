@@ -17,5 +17,5 @@ public class GroupCodeMstResponseDTO {
     private String groupNm;
     private Integer codeLength;
     private String groupDes;
-    private List<GroupCodeDtl> groupCodeDtls;
+    private List<GroupCodeDtlDTO> groupCodeDtls;
 }

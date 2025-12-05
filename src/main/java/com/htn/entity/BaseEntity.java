@@ -1,13 +1,11 @@
 package com.htn.entity;
 
+import com.htn.utils.Utils;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serial;
@@ -30,15 +28,25 @@ public abstract class BaseEntity implements Serializable {
     @Column(name = "REG_DT", updatable = false)
     private Date regDt;
 
-    @CreatedBy
     @Column(name = "REG_ID", updatable = false)
     private Long regId;
 
-    @LastModifiedDate
     @Column(name = "MOD_DT", insertable = false)
     private Date modDt;
 
-    @LastModifiedBy
     @Column(name = "MOD_ID", insertable = false)
     private Long modId;
+
+
+    @PrePersist
+    public void onCreate() {
+        this.regDt = new Date();
+        this.regId = Utils.getCurrentUserId();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        this.modDt = new Date();
+        this.modId = Utils.getCurrentUserId();
+    }
 }

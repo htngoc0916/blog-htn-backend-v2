@@ -1,5 +1,7 @@
 package com.htn.dto;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @Setter
@@ -9,9 +11,12 @@ import lombok.*;
 @Builder
 public class CategoryDTO {
     private Long id;
-    private String categoryName;
+    @NotEmpty(message = "Cannot be blank")
+    private String categoryCd;
+    @NotEmpty(message = "Cannot be blank")
+    private String categoryNm;
     private String description;
+
+    @Pattern(regexp = "^([YN])?$", message = "Must be [null|Y|N] only")
     private String usedYn;
-    private Long regId;
-    private Long modId;
 }
