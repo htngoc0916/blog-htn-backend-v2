@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface GroupCodeMstService {
     //save
+    boolean existsGroupCd(String groupCd);
     GroupCodeMst addGroupCodeMst(GroupCodeMstDTO groupCodeMstDTO);
     GroupCodeMst updateGroupCodeMst(Long id, GroupCodeMstDTO groupCodeMstDTO);
 

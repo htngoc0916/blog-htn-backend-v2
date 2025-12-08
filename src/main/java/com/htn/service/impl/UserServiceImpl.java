@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
         }
         //check role exists
         Role role = roleRepository.findByRoleName(userDTO.getRole()).orElseThrow(
-                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND, userDTO.getRole()))
+                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, userDTO.getRole()))
         );
 
         //set user info

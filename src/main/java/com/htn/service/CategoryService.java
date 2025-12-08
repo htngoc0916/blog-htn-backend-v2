@@ -10,6 +10,7 @@ public interface CategoryService {
     //get
     Category getCategory(Long id);
     PageResponseDTO<Category> getAllCategories(Pageable pageable, CategorySearchDTO searchDTO);
+    boolean existsCategoryCd(String categoryName);
 
     //add
     Category addCategory(CategoryDTO categoryDTO);

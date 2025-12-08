@@ -1,6 +1,7 @@
 package com.htn.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,13 +9,13 @@ import lombok.Data;
 @Data
 public class GroupCodeMstDTO {
     private Long id;
-    @NotEmpty(message = "Cannot be blank")
+    @NotBlank(message = "Cannot be blank")
     private String groupCd;
-    @NotEmpty(message = "Cannot be blank")
+    @NotBlank(message = "Cannot be blank")
     private String groupNm;
     private String groupNmEng;
-    @NotEmpty(message = "Cannot be blank")
-    private Integer codeLength;
+    @Min(value = 3, message = "Must be greater than 3")
+    private int codeLength;
     private String groupDes;
     private String groupOrd;
     private String usedYn;

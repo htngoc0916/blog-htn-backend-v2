@@ -26,7 +26,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu getMenuById(Long menuId) {
         return menuRepository.findById(menuId).orElseThrow(
-                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND, String.format("MenuId=%s", menuId)))
+                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, String.format("MenuId=%s", menuId)))
         );
     }
 

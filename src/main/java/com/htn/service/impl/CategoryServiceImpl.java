@@ -29,9 +29,14 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
     @Override
+    public boolean existsCategoryCd(String categoryCd) {
+        return categoryRepository.existsByCategoryCd(categoryCd);
+    }
+
+    @Override
     public Category getCategory(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(
-                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND, String.format("CategoryId=%s", categoryId)))
+                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, String.format("CategoryId=%s", categoryId)))
         );
     }
 
@@ -58,8 +63,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category addCategory(CategoryDTO categoryDTO) {
+        //check them logic da ton tai
         Category category = categoryMapper.toEntity(categoryDTO);
-//        category.setRegId(Utils.getCurrentUserId());
         return  categoryRepository.save(category);
     }
 
@@ -69,8 +74,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         //update category info
         categoryMapper.updateFromDto(categoryDTO, category);
-//        category.setModId(Utils.getCurrentUserId());
-
         return categoryRepository.save(category);
     }
 

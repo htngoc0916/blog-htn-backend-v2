@@ -35,7 +35,7 @@ public class GroupCodeMstController extends BaseController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> addGroupCodeMst(@RequestBody GroupCodeMstDTO dto){
+    public ResponseEntity<?> addGroupCodeMst(@Valid @RequestBody GroupCodeMstDTO dto){
         return response(groupCodeMstService.addGroupCodeMst(dto));
     }
 

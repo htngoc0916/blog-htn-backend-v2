@@ -4,6 +4,8 @@ import com.htn.dto.GroupCodeDtlDTO;
 import com.htn.dto.GroupCodeDtlSearchDTO;
 import com.htn.dto.PageResponseDTO;
 import com.htn.entity.GroupCodeDtl;
+import com.htn.entity.GroupCodeMst;
+import com.htn.exception.GlobalException;
 import com.htn.exception.NotFoundException;
 import com.htn.i18n.CommonMessages;
 import com.htn.i18n.LocalizationService;
@@ -23,10 +25,12 @@ public class GroupCodeDtlServiceImpl implements GroupCodeDtlService {
     @Autowired
     private GroupCodeDtlMapper mapper;
 
+
+
     @Override
     public GroupCodeDtl getGroupCodeDtlById(Long id) {
         return groupCodeDtlRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND, String.format("Id=%s", id)))
+                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, String.format("Id=%s", id)))
         );
     }
 
@@ -36,9 +40,24 @@ public class GroupCodeDtlServiceImpl implements GroupCodeDtlService {
     }
 
     @Override
-    public GroupCodeDtl addGroupCodeDtl(GroupCodeDtlDTO groupCodeDtlDTO) {
-        GroupCodeDtl groupCodeDtl = mapper.toEntity(groupCodeDtlDTO);
+    public GroupCodeDtl addGroupCodeDtl(GroupCodeDtlDTO dto) {
+        //Neu groupCd khong ton tai
+        GroupCodeMst mst = groupCodeDtlRepository.findGroupMstByGroupCd(dto.getGroupCd()).orElseThrow(
+                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND))
+        );
 
+        //Neu codeCd da ton tai
+        groupCodeDtlRepository.findByCodeCdAndGroupCodeMst_GroupCd(dto.getCodeCd(), dto.getGroupCd()).ifPresent(
+                item -> {
+                    throw new GlobalException(i18n.translate(CommonMessages.COMMON_DATA_EXISTED));
+                }
+        );
+        // check length
+        if(dto.getCodeCd().length() != mst.getCodeLength()){
+            throw new RuntimeException("Code length is incorrect");
+        }
+
+        GroupCodeDtl groupCodeDtl = mapper.toEntity(dto);
         return groupCodeDtlRepository.save(groupCodeDtl);
     }
 

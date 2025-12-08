@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface GroupCodeMstRepository extends JpaRepository<GroupCodeMst, Long> {
+    boolean existsByGroupCd(String groupCd);
     Optional<GroupCodeMst> findByGroupCd(String groupCd);
 
     Page<GroupCodeMst> findByGroupNmContainingAndUsedYn(String groupNm, String usedYn, Pageable pageable);

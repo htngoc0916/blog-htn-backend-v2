@@ -4,6 +4,7 @@ import com.htn.dto.GroupCodeMstDTO;
 import com.htn.dto.GroupCodeMstSearchDTO;
 import com.htn.dto.PageResponseDTO;
 import com.htn.entity.GroupCodeMst;
+import com.htn.exception.GlobalException;
 import com.htn.exception.NotFoundException;
 import com.htn.i18n.CommonMessages;
 import com.htn.i18n.LocalizationService;
@@ -27,16 +28,21 @@ public class GroupCodeMstServiceImpl implements GroupCodeMstService {
     private GroupCodeMstMapper mapper;
 
     @Override
+    public boolean existsGroupCd(String groupCd) {
+        return groupCodeMstRepository.existsByGroupCd(groupCd);
+    }
+
+    @Override
     public GroupCodeMst getGroupCodeMstById(Long id) {
         return groupCodeMstRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND, String.format("Id=%s", id)))
+                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, String.format("Id=%s", id)))
         );
     }
 
     @Override
     public GroupCodeMst getGroupCodeMstByGroupCd(String groupCd) {
         return groupCodeMstRepository.findByGroupCd(groupCd).orElseThrow(
-                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND, String.format("GroupCd=%s", groupCd)))
+                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, String.format("GroupCd=%s", groupCd)))
         );
     }
 
@@ -63,8 +69,11 @@ public class GroupCodeMstServiceImpl implements GroupCodeMstService {
     //add
     @Override
     public GroupCodeMst addGroupCodeMst(GroupCodeMstDTO dto) {
-        GroupCodeMst groupCodeMst = mapper.toEntity(dto);
+        if(existsGroupCd(dto.getGroupCd())){
+            throw new GlobalException(i18n.translate(CommonMessages.COMMON_DATA_EXISTED, String.format("CategoryCd = %s", dto.getGroupCd())));
+        }
 
+        GroupCodeMst groupCodeMst = mapper.toEntity(dto);
         return groupCodeMstRepository.save(groupCodeMst);
     }
 
