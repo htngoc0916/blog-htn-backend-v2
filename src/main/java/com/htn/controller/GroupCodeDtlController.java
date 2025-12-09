@@ -1,6 +1,7 @@
 package com.htn.controller;
 
 import com.htn.dto.GroupCodeDtlDTO;
+import com.htn.dto.GroupCodeDtlSearchDTO;
 import com.htn.service.GroupCodeDtlService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +18,13 @@ public class GroupCodeDtlController extends BaseController {
     private GroupCodeDtlService groupCodeDtlService;
 
     @GetMapping
-    public ResponseEntity<?> getAllGroupCodeDtl(){
-        return null;
+    public ResponseEntity<?> getAllGroupCodeDtl(@ModelAttribute GroupCodeDtlSearchDTO searchDTO){
+        return response(groupCodeDtlService.getAllGroupCodeDtl(searchDTO));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getGroupCodeDtlById(@PathVariable("id") Long id){
+        return response(groupCodeDtlService.getGroupCodeDtlById(id));
     }
 
     @PostMapping
@@ -29,7 +35,16 @@ public class GroupCodeDtlController extends BaseController {
 
     @PutMapping("/{id}")
     @PreAuthorize(value = "hasRole('ADMIN')")
-    public ResponseEntity<?> updateGroupCodeDtl(@PathVariable("id") Long id, @RequestBody GroupCodeDtlDTO dto){
+    public ResponseEntity<?> updateGroupCodeDtl(@PathVariable("id") Long id,@Valid @RequestBody GroupCodeDtlDTO dto){
         return response(groupCodeDtlService.updateGroupCodeDtl(id, dto));
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    public ResponseEntity<?> updateGroupCodeDtl(@PathVariable("id") Long id){
+        return response(groupCodeDtlService.deleteGroupCodeDtl(id));
+    }
+
+
+
 }

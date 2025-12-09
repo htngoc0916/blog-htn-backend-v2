@@ -82,7 +82,6 @@ public class GroupCodeMstServiceImpl implements GroupCodeMstService {
     public GroupCodeMst updateGroupCodeMst(Long id, GroupCodeMstDTO dto) {
         GroupCodeMst groupCodeMst = getGroupCodeMstById(id);
         mapper.updateFromDto(dto, groupCodeMst);
-
         return groupCodeMstRepository.save(groupCodeMst);
     }
 

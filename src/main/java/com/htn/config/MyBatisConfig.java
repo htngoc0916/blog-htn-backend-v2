@@ -13,18 +13,18 @@ import javax.sql.DataSource;
 @Configuration
 public class MyBatisConfig {
 
-//    @Value("${mybatis.config-location}")
-//    private Resource mybatisConfigLocation;
-//
-//    @Value("${mybatis.mapper-locations}")
-//    private Resource[] mybatisMapperLocations;
+    @Value("${mybatis.config-location}")
+    private Resource mybatisConfigLocation;
+
+    @Value("${mybatis.mapper-locations}")
+    private Resource[] mybatisMapperLocations;
 
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactoryBean = new SqlSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
-//        sessionFactoryBean.setConfigLocation(mybatisConfigLocation);
-//        sessionFactoryBean.setMapperLocations(mybatisMapperLocations);
+        sessionFactoryBean.setConfigLocation(mybatisConfigLocation);
+        sessionFactoryBean.setMapperLocations(mybatisMapperLocations);
 
         return sessionFactoryBean.getObject();
     }

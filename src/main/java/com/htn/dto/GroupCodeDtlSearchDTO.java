@@ -8,8 +8,7 @@ import lombok.Data;
 public class GroupCodeDtlSearchDTO {
     @NotBlank(message = "Cannot be blank")
     private String groupCd;
-    private String codeCd;
-    private String codeNm;
+    private String searchKey;
 
     @Pattern(regexp = "^([YN])?$", message = "Must be [null|Y|N] only")
     private String usedYn;

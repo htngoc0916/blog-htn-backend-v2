@@ -9,7 +9,8 @@ public enum CommonMessages implements MessageKey {
     COMMON_NOT_FOUND("common.data-not-found"),
     COMMON_DATA_EXISTED("common.data-existed"),
     COMMON_NOT_FOUND_WITH("common.data-not-found-with"),
-    COMMON_DATA_EXISTED_WITH("common.data-existed-with");
+    COMMON_DATA_EXISTED_WITH("common.data-existed-with"),
+    COMMON_LENGTH_EXCEED_WITH("common.length-exceed-with");
 
     private final String key;
     CommonMessages(String key) {this.key = key;}

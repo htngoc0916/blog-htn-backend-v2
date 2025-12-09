@@ -1,20 +1,20 @@
 package com.htn.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
-@Builder
-public class GroupCodeDtlDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class GroupCodeDtlResponseDTO {
     private Long id;
-    @NotBlank(message = "Cannot be blank")
     private String groupCd;
     private String parentCd;
 
-    @NotBlank(message = "Cannot be blank")
     private String codeCd;
-    @NotBlank(message = "Cannot be blank")
     private String codeNm;
     private String codeNmEng;
     private String codeDes;
@@ -23,4 +23,6 @@ public class GroupCodeDtlDTO {
     private String ect2;
     private String ect3;
     private String etc4;
+
+    private List<GroupCodeDtlDTO> children;
 }

@@ -46,7 +46,7 @@ public class TokenServiceImpl implements TokenService {
     @Transactional
     public Token addTokenToLogin(String token) {
         //lấy thông tin device
-        String device = request.getHeader("User-Agent");
+        String device = shortDeviceName(request.getHeader("User-Agent"));
         String deviceType = detectDevice(device);
 
         // Lấy user đã authenticate
@@ -69,6 +69,7 @@ public class TokenServiceImpl implements TokenService {
                             .userId(userDetails.getId())
                             .build());
     }
+
     @Override
     public Token refreshToken(String refreshToken){
         Token token = tokenRepository.findByRefreshToken(refreshToken).orElseThrow(
@@ -113,4 +114,24 @@ public class TokenServiceImpl implements TokenService {
         }
         return "P";
     }
+
+    private String shortDeviceName(String userAgent) {
+        if (userAgent == null) return "Unknown";
+
+        String os = "Unknown OS";
+        String browser = "Unknown Browser";
+
+        if (userAgent.contains("Windows")) os = "Windows";
+        else if (userAgent.contains("Mac OS")) os = "MacOS";
+        else if (userAgent.contains("Android")) os = "Android";
+        else if (userAgent.contains("iPhone")) os = "iOS";
+
+        if (userAgent.contains("Chrome")) browser = "Chrome";
+        else if (userAgent.contains("Firefox")) browser = "Firefox";
+        else if (userAgent.contains("Safari") && !userAgent.contains("Chrome")) browser = "Safari";
+        else if (userAgent.contains("Edge")) browser = "Edge";
+
+        return os + " - " + browser;
+    }
+
 }

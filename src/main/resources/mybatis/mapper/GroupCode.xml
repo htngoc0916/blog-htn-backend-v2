@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htn.mapper.mybatis.GroupCodeMbtMapper">
+    <resultMap id="GroupCodeDtlResponseMap" type="com.htn.dto.GroupCodeDtlResponseDTO">
+        <id property="id" column="id"/>
+        <result property="groupCd" column="GROUP_CD"/>
+        <result property="parentCd" column="PARENT_CD"/>
+        <result property="codeCd" column="CODE_CD"/>
+        <result property="codeNm" column="CODE_NM"/>
+        <result property="codeNmEng" column="CODE_NM_ENG"/>
+        <result property="codeDes" column="CODE_DES"/>
+        <result property="codeOrd" column="CODE_ORD"/>
+        <result property="ect1" column="ETC_1"/>
+        <result property="ect2" column="ETC_2"/>
+        <result property="ect3" column="ETC_3"/>
+        <result property="etc4" column="ETC_4"/>
+    </resultMap>
+
+    <!-- ===================== SEARCH FUNCTION ===================== -->
+    <select id="searchGroupDtls" parameterType="map" resultMap="GroupCodeDtlResponseMap">
+        SELECT *
+        FROM group_code_dtl d
+        WHERE d.GROUP_CD = #{groupCd}
+
+        <if test="searchKey != null and searchKey != ''">
+            AND (
+            d.CODE_CD LIKE CONCAT('%', #{searchKey}, '%')
+            OR d.CODE_NM LIKE CONCAT('%', #{searchKey}, '%')
+            )
+        </if>
+
+        <if test="usedYn != null and usedYn != ''">
+            AND d.USED_YN = #{usedYn}
+        </if>
+
+        ORDER BY d.CODE_ORD ASC
+    </select>
+</mapper>

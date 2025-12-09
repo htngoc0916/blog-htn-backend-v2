@@ -10,7 +10,7 @@
     </settings>
 
     <typeAliases>
-        <package name="com.htn.mapper"/>
+        <package name="com.htn.mapper.mybatis"/>
     </typeAliases>
 
 </configuration>

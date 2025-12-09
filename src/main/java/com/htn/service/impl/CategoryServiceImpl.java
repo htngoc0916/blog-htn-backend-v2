@@ -79,6 +79,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean deleteCategory(Long categoryId) {
-        return false;
+        Category category = getCategory(categoryId);
+        category.setUsedYn("N");
+        categoryRepository.save(category);
+        return true;
     }
 }
