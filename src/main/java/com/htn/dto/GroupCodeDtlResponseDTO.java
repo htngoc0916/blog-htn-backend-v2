@@ -24,5 +24,5 @@ public class GroupCodeDtlResponseDTO {
     private String ect3;
     private String etc4;
 
-    private List<GroupCodeDtlDTO> children;
+    private List<GroupCodeDtlResponseDTO> children;
 }

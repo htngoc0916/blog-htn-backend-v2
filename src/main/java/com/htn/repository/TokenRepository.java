@@ -1,7 +1,6 @@
 package com.htn.repository;
 
 import com.htn.entity.Token;
-import com.htn.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

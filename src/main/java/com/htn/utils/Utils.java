@@ -4,15 +4,12 @@ import com.htn.constant.CommonConstant;
 import com.htn.exception.GlobalException;
 import com.htn.security.custom.CustomUserDetails;
 import lombok.Data;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.UUID;
 
@@ -55,8 +52,8 @@ public class Utils {
             throw new GlobalException("Size number cannot be less than 0");
         }
 
-        if (size > CommonConstant.MAX_AUTH_TOKEN) {
-            throw new GlobalException("Page size must not be greater than " + CommonConstant.MAX_AUTH_TOKEN);
+        if (size > CommonConstant.MAX_PAGE_SIZE) {
+            throw new GlobalException("Page size must not be greater than " + CommonConstant.MAX_PAGE_SIZE);
         }
     }
 
@@ -64,5 +61,49 @@ public class Utils {
     public static Long getCurrentUserId() {
         CustomUserDetails user = getUserDetailsFromSecurityContext();
         return (user != null) ? user.getId() : null;
+    }
+
+    //generate slug to string
+    public static String generateSlug(String input) {
+        if (input == null || input.isBlank()) return "";
+
+        // Convert to lower case
+        String slug = input.toLowerCase();
+
+        // Remove accents (Vietnamese, Korean, etc.)
+        slug = java.text.Normalizer.normalize(slug, java.text.Normalizer.Form.NFD);
+        slug = slug.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+
+        // Replace non-alphanumeric with "-"
+        slug = slug.replaceAll("[^a-z0-9]+", "-");
+
+        // Remove leading/trailing "-"
+        slug = slug.replaceAll("(^-|-$)", "");
+
+        return slug;
+    }
+
+    // Thêm hậu tố 6 ký tự ngẫu nhiên
+    public static String appendSlugSuffix(String slug) {
+        String random = UUID.randomUUID().toString().substring(0, 6);
+        return slug + "-" + random;
+    }
+
+    /**
+     * Đảm bảo slug unique bằng cách kiểm tra DB qua callback
+     *
+     * @param baseSlug slug gốc
+     * @param existsChecker hàm callback kiểm tra slug đã tồn tại
+     * @return slug unique
+     */
+    public static String toUniqueSlug(String baseSlug, java.util.function.Predicate<String> existsChecker) {
+        String slug = baseSlug;
+
+        while (existsChecker.test(slug)) {
+            // Nếu tồn tại trong DB
+            slug = appendSlugSuffix(baseSlug);
+        }
+
+        return slug;
     }
 }

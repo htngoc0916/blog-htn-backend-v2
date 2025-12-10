@@ -73,7 +73,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     //xứ lý treeMenu
-    private List<MenuResponseDTO> handleTreeMenu(List<Menu> allMenus) {
+    private List<MenuResponseDTO>handleTreeMenu(List<Menu> allMenus) {
         //lay ra cac root menus
         List<Menu> rootMenus = findRootMenus(allMenus);
 
