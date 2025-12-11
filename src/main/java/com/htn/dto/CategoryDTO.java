@@ -15,8 +15,9 @@ public class CategoryDTO {
     private String categoryCd;
     @NotEmpty(message = "Cannot be blank")
     private String categoryNm;
-    private String description;
-
+    private String categoryDes;
+    private int categoryOrd;
+    private String parentCd;
     @Pattern(regexp = "^([YN])?$", message = "Must be [null|Y|N] only")
     private String usedYn;
 }

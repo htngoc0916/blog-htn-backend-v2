@@ -16,6 +16,7 @@ import com.htn.mapper.UserMapper;
 import com.htn.repository.RoleRepository;
 import com.htn.repository.UserRepository;
 import com.htn.service.UserService;
+import com.htn.utils.PagingUtils;
 import com.htn.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
     public PageResponseDTO<User> getPaginationUsers(UserSearchDTO searchDTO, Pageable pageable) {
 
         //validation
-        Utils.paginationValidate(pageable);
+        PagingUtils.paginationValidate(pageable);
 
         //check search params
         Page<User> resultPage;

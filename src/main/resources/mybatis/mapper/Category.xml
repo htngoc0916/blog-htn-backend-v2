@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htn.mapper.mybatis.CategoryMbtMapper">
+
+    <!-- COUNT PARENT CATEGORY -->
+    <select id="countParentCategories" resultType="long">
+        SELECT COUNT(DISTINCT p.category_cd)
+        FROM categories p
+        LEFT JOIN categories c ON c.parent_cd = p.category_cd
+        WHERE p.parent_cd IS NULL
+        <if test="search.categoryNm != null and search.categoryNm != ''">
+            AND (
+            p.category_nm LIKE CONCAT('%', #{search.categoryNm}, '%')
+            OR c.category_nm LIKE CONCAT('%', #{search.categoryNm}, '%')
+            )
+        </if>
+        <if test="search.usedYn != null and search.usedYn != ''">
+            AND p.used_yn = #{search.usedYn}
+        </if>
+    </select>
+
+
+    <!-- SEARCH PARENT CATEGORIES (with pagination) -->
+    <select id="searchParentCategories" resultType="com.htn.dto.CategoryResponseDTO">
+        SELECT DISTINCT p.*
+        FROM categories p
+        LEFT JOIN categories c ON c.parent_cd = p.category_cd
+        WHERE p.parent_cd IS NULL
+        <if test="search.categoryNm != null and search.categoryNm != ''">
+            AND (
+            p.category_nm LIKE CONCAT('%', #{search.categoryNm}, '%')
+            OR c.category_nm LIKE CONCAT('%', #{search.categoryNm}, '%')
+            )
+        </if>
+        <if test="search.usedYn != null and search.usedYn != ''">
+            AND p.used_yn = #{search.usedYn}
+        </if>
+
+        <if test="sort != null and sort != ''">
+            ORDER BY ${sort}
+        </if>
+        <if test="sort == null or sort == ''">
+            ORDER BY p.category_ord ASC, p.id DESC
+        </if>
+
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+    <!-- LOAD CHILDREN OF PARENT LIST -->
+    <select id="findChildrenByParentCds" resultType="com.htn.dto.CategoryResponseDTO">
+        SELECT *
+        FROM categories
+        WHERE parent_cd IN
+        <foreach collection="parentCds" item="pc" open="(" close=")" separator=",">
+            #{pc}
+        </foreach>
+        ORDER BY category_ord ASC, id ASC
+    </select>
+
+</mapper>

@@ -25,10 +25,10 @@ public class CategoryController extends BaseController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAllCategories(@SortDefault(sort = "id", direction = Sort.Direction.DESC)
+    public ResponseEntity<?> searchAllCategories(@SortDefault(sort = "id", direction = Sort.Direction.DESC)
                                               @PageableDefault Pageable pageable,
                                               @Valid @ModelAttribute CategorySearchDTO categorySearchDTO) {
-        return response(categoryServices.getAllCategories(pageable, categorySearchDTO));
+        return response(categoryServices.searchAllCategories(pageable, categorySearchDTO));
     }
 
     @PostMapping

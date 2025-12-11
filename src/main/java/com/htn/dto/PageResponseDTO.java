@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PageResponseDTO<T> {
-    private List<T> data;
+    private List<T> items;
     private Integer page;
     private Integer pageSize;
     //tổng các rows có trong DB
@@ -26,7 +27,7 @@ public class PageResponseDTO<T> {
     //mà gọi trực tiếp luôn
     public static <T> PageResponseDTO<T> of(Page<T> page) {
         return PageResponseDTO.<T>builder()
-                .data(page.getContent())
+                .items(page.getContent())
                 .page(page.getNumber() + 1)
                 .pageSize(page.getSize())
                 .totalElements(page.getTotalElements())
@@ -35,4 +36,20 @@ public class PageResponseDTO<T> {
                 .build();
     }
 
+    public static <T> PageResponseDTO<T> of(List<T> data, Pageable pageable, long total) {
+        int page = pageable.getPageNumber() + 1 ;
+        int pageSize = pageable.getPageSize();
+        int totalPage = (int) Math.ceil((double) total / pageSize);
+        boolean isLast = page >= totalPage;
+
+
+        return  PageResponseDTO.<T>builder()
+                .items(data)
+                .page(page)
+                .pageSize(pageSize)
+                .totalElements(total)
+                .totalPage(totalPage)
+                .last(isLast)
+                .build();
+    }
 }

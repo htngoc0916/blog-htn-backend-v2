@@ -10,6 +10,7 @@ import com.htn.i18n.LocalizationService;
 import com.htn.mapper.TagMapper;
 import com.htn.repository.TagRepository;
 import com.htn.service.TagService;
+import com.htn.utils.PagingUtils;
 import com.htn.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -60,7 +61,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public PageResponseDTO<Tag> searchTags(Pageable pageable, TagSearchDTO searchDTO) {
-        Utils.paginationValidate(pageable);
+        PagingUtils.paginationValidate(pageable);
 
         //check search params
         Page<Tag> resultPage;

@@ -39,23 +39,23 @@ public class Utils {
         return userDetails;
     }
 
-    //validation pageSize
-    public static void paginationValidate(Pageable pageable) {
-        int page = pageable.getPageNumber();
-        int size = pageable.getPageSize();
-
-        if (page < 0) {
-            throw new GlobalException("Page number cannot be less than 0");
-        }
-
-        if (size < 0) {
-            throw new GlobalException("Size number cannot be less than 0");
-        }
-
-        if (size > CommonConstant.MAX_PAGE_SIZE) {
-            throw new GlobalException("Page size must not be greater than " + CommonConstant.MAX_PAGE_SIZE);
-        }
-    }
+//    //validation pageSize
+//    public static void paginationValidate(Pageable pageable) {
+//        int page = pageable.getPageNumber();
+//        int size = pageable.getPageSize();
+//
+//        if (page < 0) {
+//            throw new GlobalException("Page number cannot be less than 0");
+//        }
+//
+//        if (size < 0) {
+//            throw new GlobalException("Size number cannot be less than 0");
+//        }
+//
+//        if (size > CommonConstant.MAX_PAGE_SIZE) {
+//            throw new GlobalException("Page size must not be greater than " + CommonConstant.MAX_PAGE_SIZE);
+//        }
+//    }
 
     //get current user id
     public static Long getCurrentUserId() {
