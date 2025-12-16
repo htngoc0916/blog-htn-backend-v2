@@ -10,14 +10,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UploadResponseDTO {
-    private Long id;
     private String fileTitle;
     private String filePath;
     private String fileName;
-    private String fileOriginalName;
+    private String fileNameOrg;
     private String fileType;
     private Long fileSize;
-    @Builder.Default
-    private String usedYn = "Y";
-    private Long regId;
+    private String mediaType;
+    private String storageType;
+    private Integer width;
+    private Integer height;
+    private Float duration;
 }

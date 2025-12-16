@@ -3,12 +3,12 @@ package com.htn.service.impl;
 import com.htn.dto.FileUploadDTO;
 import com.htn.dto.FileUploadMultipleDTO;
 import com.htn.dto.UploadResponseDTO;
-import com.htn.entity.FileMaster;
+import com.htn.entity.MediaMaster;
 import com.htn.exception.GlobalException;
 import com.htn.i18n.FileMessages;
 import com.htn.i18n.LocalizationService;
-import com.htn.mapper.FileMasterMapper;
-import com.htn.repository.FileMasterRepository;
+import com.htn.mapper.MediaMasterMapper;
+import com.htn.repository.MediaMasterRepository;
 import com.htn.service.FilesStorageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,35 +25,35 @@ import java.util.List;
 public class FilesStorageServiceImpl extends FileAbstract implements FilesStorageService {
 
     @Autowired
-    private FileMasterMapper mapper;
+    private MediaMasterMapper mapper;
     @Autowired
-    private FileMasterRepository fileMasterRepository;
+    private MediaMasterRepository MediaMasterRepository;
     @Autowired
     private LocalizationService i18n;
 
     @Override
-    public FileMaster getFileById(Long fileId) {
-        return fileMasterRepository.findById(fileId).orElseThrow(
+    public MediaMaster getFileById(Long fileId) {
+        return MediaMasterRepository.findById(fileId).orElseThrow(
                 () -> new GlobalException(i18n.translate(FileMessages.FILE_NOT_FOUND, fileId))
         );
     }
     @Override
-    public FileMaster findByFileName(String fileName) {
-        return fileMasterRepository.findByFileName(fileName).orElseThrow(
+    public MediaMaster findByFileName(String fileName) {
+        return MediaMasterRepository.findByFileName(fileName).orElseThrow(
                 () -> new GlobalException(i18n.translate(FileMessages.FILE_NOT_FOUND, fileName))
         );
     }
 
     //Upload 1 file
     @Override
-    public FileMaster uploadFile(FileUploadDTO file) {
+    public MediaMaster uploadFile(FileUploadDTO file) {
         try {
             log.info("upload file start");
             //tao thu muc
             createDirectory();
 
             //upload file
-            FileMaster saved = handleUpload(file);
+            MediaMaster saved = handleUpload(file);
             log.info("upload file end");
             return saved;
         }
@@ -65,14 +65,14 @@ public class FilesStorageServiceImpl extends FileAbstract implements FilesStorag
 
     //Upload nhiều file
     @Override
-    public List<FileMaster> uploadMultipleFiles(FileUploadMultipleDTO fileUploadMultipleDTO) {
+    public List<MediaMaster> uploadMultipleFiles(FileUploadMultipleDTO fileUploadMultipleDTO) {
        try {
            log.info("upload multiple files start");
            //tao thu muc
            createDirectory();
 
            //upload file
-           List<FileMaster> result = new ArrayList<>();
+           List<MediaMaster> result = new ArrayList<>();
            MultipartFile[] files = fileUploadMultipleDTO.getFile();
            String[] titles = fileUploadMultipleDTO.getFileTitle();
 
@@ -85,9 +85,10 @@ public class FilesStorageServiceImpl extends FileAbstract implements FilesStorag
                        .build();
 
                // Upload từng file
-               FileMaster saved = handleUpload(fileUploadDTO);
+               MediaMaster saved = handleUpload(fileUploadDTO);
                result.add(saved);
            }
+           log.info("upload multiple file end");
            return result;
        }catch (Exception e){
            log.error("Upload files failed: {}", e.getMessage());
@@ -98,8 +99,8 @@ public class FilesStorageServiceImpl extends FileAbstract implements FilesStorag
     @Override
     public Resource fileDownload(String fileName){
         try {
-            FileMaster fileMaster = findByFileName(fileName);
-            String path = fileMaster.getFilePath().concat("/").concat(fileName);
+            MediaMaster MediaMaster = findByFileName(fileName);
+            String path = MediaMaster.getFilePath().concat("/").concat(fileName);
             return downloadFileStore(path);
         }catch (Exception e){
             log.error("Download file failed: {}", e.getMessage());
@@ -110,10 +111,10 @@ public class FilesStorageServiceImpl extends FileAbstract implements FilesStorag
     @Override
     public boolean deleteFile(String fileName) {
         try {
-            FileMaster fileMaster = findByFileName(fileName);
-            String path = fileMaster.getFilePath().concat("/").concat(fileName);
+            MediaMaster MediaMaster = findByFileName(fileName);
+            String path = MediaMaster.getFilePath().concat("/").concat(fileName);
             deleteFileStore(path);
-            fileMasterRepository.delete(fileMaster);
+            MediaMasterRepository.delete(MediaMaster);
             return true;
         }catch (Exception e){
             log.error("Delete file failed: {}", e.getMessage());
@@ -122,9 +123,9 @@ public class FilesStorageServiceImpl extends FileAbstract implements FilesStorag
     }
 
     //handle upload file
-    private FileMaster handleUpload(FileUploadDTO file) throws IOException {
+    private MediaMaster handleUpload(FileUploadDTO file) throws IOException {
         UploadResponseDTO rs = uploadFileStore(file);
-        FileMaster entity = mapper.toEntity(rs);
-        return fileMasterRepository.save(entity);
+        MediaMaster entity = mapper.uploadResponseToEntity(rs);
+        return MediaMasterRepository.save(entity);
     }
 }

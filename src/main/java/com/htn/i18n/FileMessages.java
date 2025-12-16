@@ -5,7 +5,8 @@ public enum FileMessages implements MessageKey {
     FILE_UPLOAD_FAIL("file.upload-fail"),
     FILE_DELETE_FAIL("file.delete-fail"),
     FILE_NOT_FOUND("file.not-found"),
-    FILE_DIRECTORY_CREATION_FAIL("file.directory-creation-fail");
+    FILE_DIRECTORY_CREATION_FAIL("file.directory-creation-fail"),
+    FILE_CAN_NOT_GET_DURATION("file.can-not-get-duration");
 
     private final String key;
     FileMessages(String key) {this.key = key;}
