@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htn.mapper.mybatis.MediaMbtMapper">
+    <select id="getMedia" resultType="com.htn.dto.MediaResponseDTO">
+        SELECT
+            m.*,
+            IFNULL(r.RELATION_COUNT, 0) AS RELATION_COUNT
+        FROM media_master m
+            LEFT JOIN (
+            SELECT
+            MEDIA_ID,
+            COUNT(*) AS RELATION_COUNT
+            FROM media_relation
+            GROUP BY MEDIA_ID
+            ) r ON m.ID = r.MEDIA_ID
+        WHERE m.ID = #{mediaId}
+    </select>
+</mapper>
