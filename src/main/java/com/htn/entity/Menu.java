@@ -21,8 +21,8 @@ public class Menu extends BaseEntity {
     private String menuName;
     @Column(name = "MENU_NAME")
     private String menuNameEng;
-    @Column(name = "PARENT_ID")
-    private Long parentId;
+    @Column(name = "PARENT_CD")
+    private String parentCd;
     @Column(name = "MENU_ORD")
     private Integer menuOrd;
     @Column(name = "MENU_URL")

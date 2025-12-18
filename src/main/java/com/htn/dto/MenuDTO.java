@@ -14,7 +14,7 @@ public class MenuDTO {
     private String menuCode;
     private String menuName;
     private String menuNameEng;
-    private Integer parentId;
+    private String parentCd;
     private Integer menuOrd;
     private String menuUrl;
     private String menuIcon;

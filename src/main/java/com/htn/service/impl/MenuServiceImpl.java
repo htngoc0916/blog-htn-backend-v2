@@ -3,6 +3,7 @@ package com.htn.service.impl;
 import com.htn.dto.MenuDTO;
 import com.htn.dto.MenuResponseDTO;
 import com.htn.entity.Menu;
+import com.htn.exception.GlobalException;
 import com.htn.exception.NotFoundException;
 import com.htn.i18n.CommonMessages;
 import com.htn.i18n.LocalizationService;
@@ -26,7 +27,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Menu getMenuById(Long menuId) {
         return menuRepository.findById(menuId).orElseThrow(
-                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, String.format("MenuId=%s", menuId)))
+                () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND))
         );
     }
 
@@ -44,6 +45,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu addMenu(MenuDTO menuDTO) {
+        menuRepository.findByMenuCode(menuDTO.getMenuCode()).ifPresent(menu -> {
+            throw new GlobalException(i18n.translate(CommonMessages.COMMON_DATA_EXISTED));
+        });
+
         Menu menu = menuMapper.toEntity(menuDTO);
         return menuRepository.save(menu);
     }
@@ -64,12 +69,12 @@ public class MenuServiceImpl implements MenuService {
 
     //tìm các root menus
     private List<Menu> findRootMenus(List<Menu> allMenus) {
-        return allMenus.stream().filter(menu -> menu.getParentId() == null || menu.getParentId() == 0).toList();
+        return allMenus.stream().filter(menu -> menu.getParentCd() == null || menu.getParentCd().isEmpty()).toList();
     }
 
     //tìm các child menus
-    private List<Menu> findChildMenus(List<Menu> allMenus, Long parentId) {
-        return allMenus.stream().filter(menu -> menu.getParentId().equals(parentId)).toList();
+    private List<Menu> findChildMenus(List<Menu> allMenus, String parentCd) {
+        return allMenus.stream().filter(menu -> menu.getParentCd().equals(parentCd)).toList();
     }
 
     //xứ lý treeMenu
@@ -85,7 +90,7 @@ public class MenuServiceImpl implements MenuService {
 
     private MenuResponseDTO buildMenuNode(Menu menu, List<Menu> allMenus) {
         // Tìm menu con
-        List<Menu> childMenus = findChildMenus(allMenus, menu.getId());
+        List<Menu> childMenus = findChildMenus(allMenus, menu.getMenuCode());
 
         // Build DTO cho node hiện tại
         MenuResponseDTO dto = menuMapper.toResponseDto(menu);

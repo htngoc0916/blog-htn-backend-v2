@@ -15,7 +15,8 @@ public class MenuResponseDTO {
     private Long id;
     private String menuCode;
     private String menuName;
-    private Integer parentId;
+    private String menuNameEng;
+    private String parentCd;
     private Integer menuOrder;
     private String menuUrl;
     private String menuIcon;
