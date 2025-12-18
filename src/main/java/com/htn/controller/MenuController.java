@@ -33,19 +33,19 @@ public class MenuController extends BaseController {
         return response(menuService.getMenus());
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> addMenu(@Valid @RequestBody MenuDTO menuDTO){
         return response(menuService.addMenu(menuDTO));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateMenu(@Valid @PathVariable("id") Long menuId, @RequestBody MenuDTO menuDTO){
         return response(menuService.updateMenu(menuId, menuDTO));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteMenu(@PathVariable("id") Long menuId) {
         return response(menuService.deleteMenu(menuId));

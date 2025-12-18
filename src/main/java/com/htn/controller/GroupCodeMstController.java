@@ -34,19 +34,19 @@ public class GroupCodeMstController extends BaseController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> addGroupCodeMst(@Valid @RequestBody GroupCodeMstDTO dto){
         return response(groupCodeMstService.addGroupCodeMst(dto));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateGroupCodeMst(@PathVariable("id") Long id, @RequestBody GroupCodeMstDTO dto){
         return response(groupCodeMstService.updateGroupCodeMst(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteGroupCodeMst(@PathVariable("id") Long id){
         return response(groupCodeMstService.deleteGroupCodeMst(id));
     }

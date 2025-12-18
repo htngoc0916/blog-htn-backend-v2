@@ -33,19 +33,19 @@ public class TagController extends BaseController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> addTag(@Valid @RequestBody TagDTO tagDTO){
         return response(tagService.addTag(tagDTO));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateTag(@PathVariable("id") Long id, @Valid @RequestBody TagDTO tagDTO){
         return response(tagService.updateTag(id, tagDTO));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteTag(@PathVariable("id") Long id){
         return response(tagService.deleteTagById(id));
     }

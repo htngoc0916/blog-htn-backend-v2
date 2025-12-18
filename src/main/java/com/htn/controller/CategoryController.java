@@ -32,19 +32,19 @@ public class CategoryController extends BaseController {
     }
 
     @PostMapping
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> addCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         return response(categoryServices.addCategory(categoryDTO));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO) {
         return response(categoryServices.updateCategory(id, categoryDTO));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize(value = "hasAnyRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         return response(categoryServices.deleteCategory(id));
     }

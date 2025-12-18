@@ -37,7 +37,7 @@ public class UserController extends BaseController {
     }
 
     @GetMapping()
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> getAllUsers(@SortDefault(sort = "id", direction = Sort.Direction.DESC)
                                              @PageableDefault Pageable pageable,
                                          @ModelAttribute UserSearchDTO userSearchDTO){
@@ -45,19 +45,19 @@ public class UserController extends BaseController {
     }
 
     @PostMapping
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> addUser(@RequestBody UserDTO userDTO){
         return response(userService.addUser(userDTO));
     }
 
     @PutMapping(value ="/{id}")
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @Valid @RequestBody UserDTO userDTO){
         return response(userService.updateUser(id, userDTO));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long userId){
         return response(userService.deleteUser(userId));
     }

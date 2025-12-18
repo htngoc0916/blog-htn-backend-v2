@@ -17,13 +17,13 @@ public class FilesStorageController extends BaseController {
     @Autowired
     FilesStorageService fileMasterService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadFile(@ModelAttribute FileUploadDTO file){
         return response(fileMasterService.uploadFile(file));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping(value = "/batch", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadMultipleFiles(@ModelAttribute FileUploadMultipleDTO files){
         return response(fileMasterService.uploadMultipleFiles(files));
@@ -50,7 +50,7 @@ public class FilesStorageController extends BaseController {
         return response(fileMasterService.getFileById(id));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/admin/files/{fileName}")
     public ResponseEntity<?> deleteFile(@PathVariable String fileName) {
         return response(fileMasterService.deleteFile(fileName));

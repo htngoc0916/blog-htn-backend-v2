@@ -28,19 +28,19 @@ public class GroupCodeDtlController extends BaseController {
     }
 
     @PostMapping
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> addGroupCodeDtl(@Valid @RequestBody GroupCodeDtlDTO dto) {
         return response(groupCodeDtlService.addGroupCodeDtl(dto));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> updateGroupCodeDtl(@PathVariable("id") Long id,@Valid @RequestBody GroupCodeDtlDTO dto){
         return response(groupCodeDtlService.updateGroupCodeDtl(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize(value = "hasRole('ADMIN')")
+    @PreAuthorize(value = "hasAuthority('ADMIN')")
     public ResponseEntity<?> updateGroupCodeDtl(@PathVariable("id") Long id){
         return response(groupCodeDtlService.deleteGroupCodeDtl(id));
     }

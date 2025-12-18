@@ -25,5 +25,5 @@ public class UserDTO {
     @Builder.Default
     private String usedYn = "Y";
     @Builder.Default
-    private String role = RoleConstant.ROLE_USER.toString();
+    private String role = RoleConstant.ROLE_USER.getCode();
 }
