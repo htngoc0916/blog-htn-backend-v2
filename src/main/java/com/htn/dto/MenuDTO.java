@@ -13,6 +13,7 @@ public class MenuDTO {
     private Long id;
     private String menuCode;
     private String menuName;
+    private String menuNameEng;
     private Integer parentId;
     private Integer menuOrd;
     private String menuUrl;
