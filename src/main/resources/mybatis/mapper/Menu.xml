@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htn.mapper.mybatis.MenuMbtMapper">
+    <resultMap id="MenuResultMap" type="com.htn.dto.MenuResponseDTO">
+        <id     property="id"          column="ID"/>
+        <result property="menuCode"    column="MENU_CODE"/>
+        <result property="menuName"    column="MENU_NAME"/>
+        <result property="menuNameEng" column="MENU_NAME_ENG"/>
+        <result property="parentCd"    column="PARENT_CD"/>
+        <result property="menuOrder"   column="MENU_ORD"/>
+        <result property="menuUrl"     column="MENU_URL"/>
+        <result property="menuIcon"    column="MENU_ICON"/>
+        <result property="usedYn"      column="USED_YN"/>
+
+        <collection property="permissions" ofType="com.htn.dto.PermissionConfigDTO">
+            <result property="permissionCd"   column="PERMISSION_CD"/>
+            <result property="permissionName" column="PERMISSION_NM"/>
+            <result property="description"    column="DESCRIPTION"/>
+        </collection>
+    </resultMap>
+
+    <select id="getMenuById" parameterType="long" resultMap="MenuResultMap">
+        SELECT
+            m.ID,
+            m.MENU_CODE,
+            m.MENU_NAME,
+            m.MENU_NAME_ENG,
+            m.PARENT_CD,
+            m.MENU_ORD,
+            m.MENU_URL,
+            m.MENU_ICON,
+            m.USED_YN,
+
+            c.PERMISSION_ID,
+            c.DESCRIPTION,
+            c.SORT_ORDER,
+
+            p.PERMISSION_CD,
+            p.PERMISSION_NM
+        FROM menus m
+        LEFT JOIN menu_permission_config c ON m.ID = c.MENU_ID
+        LEFT JOIN permissions p ON p.ID = c.PERMISSION_ID
+        WHERE m.ID = #{menuId}
+        ORDER BY c.SORT_ORDER
+    </select>
+
+</mapper>

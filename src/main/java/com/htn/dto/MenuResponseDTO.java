@@ -1,5 +1,6 @@
 package com.htn.dto;
 
+import com.htn.entity.Permission;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,9 @@ public class MenuResponseDTO {
     private String menuUrl;
     private String menuIcon;
     private String usedYn;
+
+    //children
     private List<MenuResponseDTO> children;
+
+    private List<PermissionConfigDTO> permissions;
 }
