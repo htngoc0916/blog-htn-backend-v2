@@ -11,6 +11,7 @@ import com.htn.i18n.CommonMessages;
 import com.htn.i18n.LocalizationService;
 import com.htn.mapper.GroupCodeDtlMapper;
 import com.htn.mapper.mybatis.GroupCodeMbtMapper;
+import com.htn.module.TreeModule;
 import com.htn.repository.GroupCodeDtlRepository;
 import com.htn.repository.GroupCodeMstRepository;
 import com.htn.service.GroupCodeDtlService;
@@ -19,9 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GroupCodeDtlServiceImpl implements GroupCodeDtlService {
@@ -47,38 +45,10 @@ public class GroupCodeDtlServiceImpl implements GroupCodeDtlService {
     @Override
     public List<GroupCodeDtlResponseDTO> getAllGroupCodeDtl(GroupCodeDtlSearchDTO searchDTO) {
         //get data
-        List<GroupCodeDtlResponseDTO> list = mbtMapper.searchGroupDtls(searchDTO);
-        if (list.isEmpty()) {return List.of();}
+        List<GroupCodeDtlResponseDTO> groupDtls = mbtMapper.searchGroupDtls(searchDTO);
+        if (groupDtls.isEmpty()) {return List.of();}
 
-        return buildTree(list);
-    }
-
-    private List<GroupCodeDtlResponseDTO> buildTree(List<GroupCodeDtlResponseDTO> allCodes) {
-
-        // Group by parentCd để tìm con nhanh hơn
-        Map<String, List<GroupCodeDtlResponseDTO>> mapByParent =
-                allCodes.stream()
-                        .collect(Collectors.groupingBy(
-                                item -> Optional.ofNullable(item.getParentCd()).orElse("")
-                        ));
-
-        // Tìm parent (những thằng có parentCd = null hoặc blank)
-        List<GroupCodeDtlResponseDTO> roots = mapByParent.getOrDefault("", List.of());
-
-        // build children đệ quy
-        roots.forEach(root -> buildChildrenRecursive(root, mapByParent));
-
-        return roots;
-    }
-
-    private void buildChildrenRecursive(GroupCodeDtlResponseDTO parent, Map<String, List<GroupCodeDtlResponseDTO>> mapByParent) {
-
-        // Lấy danh sách các con theo parentCd
-        List<GroupCodeDtlResponseDTO> children = mapByParent.getOrDefault(parent.getCodeCd(), List.of());
-        parent.setChildren(children);
-
-        // Đệ quy cho từng con
-        children.forEach(child -> buildChildrenRecursive(child, mapByParent));
+        return TreeModule.buildTree(groupDtls);
     }
 
     @Override

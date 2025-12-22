@@ -1,6 +1,7 @@
 package com.htn.dto;
 
 import com.htn.entity.Permission;
+import com.htn.module.TreeNode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MenuResponseDTO {
+public class MenuResponseDTO implements TreeNode<MenuResponseDTO> {
     private Long id;
     private String menuCode;
     private String menuName;
@@ -27,4 +28,13 @@ public class MenuResponseDTO {
     private List<MenuResponseDTO> children;
 
     private List<PermissionConfigDTO> permissions;
+
+    @Override
+    public String getCode() {
+        return menuCode;
+    }
+    @Override
+    public String getParentCode() {
+        return parentCd;
+    }
 }

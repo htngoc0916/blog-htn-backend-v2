@@ -5,7 +5,7 @@ import com.htn.exception.GlobalException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-public class PagingUtils {
+public class PagingUtil {
     //validation pageSize
     public static void paginationValidate(Pageable pageable) {
         int page = pageable.getPageNumber();

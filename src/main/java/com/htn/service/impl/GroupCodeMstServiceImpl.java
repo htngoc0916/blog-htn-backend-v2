@@ -11,7 +11,7 @@ import com.htn.i18n.LocalizationService;
 import com.htn.mapper.GroupCodeMstMapper;
 import com.htn.repository.GroupCodeMstRepository;
 import com.htn.service.GroupCodeMstService;
-import com.htn.utils.PagingUtils;
+import com.htn.utils.PagingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +49,7 @@ public class GroupCodeMstServiceImpl implements GroupCodeMstService {
     @Override
     public PageResponseDTO<GroupCodeMst> getAllGroupCodeMst(Pageable pageable, GroupCodeMstSearchDTO searchDTO) {
         //validation
-        PagingUtils.paginationValidate(pageable);
+        PagingUtil.paginationValidate(pageable);
 
         //check search params
         Page<GroupCodeMst> resultPage;

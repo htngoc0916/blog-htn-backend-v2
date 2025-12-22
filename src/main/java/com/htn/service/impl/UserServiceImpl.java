@@ -16,8 +16,8 @@ import com.htn.mapper.UserMapper;
 import com.htn.repository.RoleRepository;
 import com.htn.repository.UserRepository;
 import com.htn.service.UserService;
-import com.htn.utils.PagingUtils;
-import com.htn.utils.SecurityUtils;
+import com.htn.utils.PagingUtil;
+import com.htn.utils.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
     public PageResponseDTO<User> getPaginationUsers(UserSearchDTO searchDTO, Pageable pageable) {
 
         //validation
-        PagingUtils.paginationValidate(pageable);
+        PagingUtil.paginationValidate(pageable);
 
         //check search params
         Page<User> resultPage;
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
         //set user info
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setVerifyYn("N");
-        user.setVerifyCode(SecurityUtils.generateVerificationCode());
+        user.setVerifyCode(SecurityUtil.generateVerificationCode());
         return userRepository.save(user);
     }
 
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
         user.setEmailSendYn("N");
         user.setVerifyYn("N");
         user.setEmailSendDt(new Date());
-        user.setVerifyCode(SecurityUtils.generateVerificationCode());
+        user.setVerifyCode(SecurityUtil.generateVerificationCode());
         userRepository.save(user);
         return true;
     }

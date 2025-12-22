@@ -13,7 +13,7 @@ import com.htn.mapper.CategoryMapper;
 import com.htn.mapper.mybatis.CategoryMbtMapper;
 import com.htn.repository.CategoryRepository;
 import com.htn.service.CategoryService;
-import com.htn.utils.PagingUtils;
+import com.htn.utils.PagingUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -51,12 +51,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public PageResponseDTO<CategoryResponseDTO> searchAllCategories(Pageable pageable, CategorySearchDTO searchDTO) {
-        PagingUtils.paginationValidate(pageable);
+        PagingUtil.paginationValidate(pageable);
 
         // build sort string
-        String sort = PagingUtils.sortSql(pageable);
-        int offset = PagingUtils.offset(pageable);
-        int limit = PagingUtils.limit(pageable);
+        String sort = PagingUtil.sortSql(pageable);
+        int offset = PagingUtil.offset(pageable);
+        int limit = PagingUtil.limit(pageable);
 
         // 1) Lấy parent theo search + pagination
         List<CategoryResponseDTO> parents = categoryMbtMapper.searchParentCategories(searchDTO, offset, limit, sort);

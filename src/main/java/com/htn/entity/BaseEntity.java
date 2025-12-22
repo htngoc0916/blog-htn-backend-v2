@@ -1,6 +1,6 @@
 package com.htn.entity;
 
-import com.htn.utils.SecurityUtils;
+import com.htn.utils.SecurityUtil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,12 +41,12 @@ public abstract class BaseEntity implements Serializable {
     @PrePersist
     public void onCreate() {
         this.regDt = new Date();
-        this.regId = SecurityUtils.getCurrentUserId();
+        this.regId = SecurityUtil.getCurrentUserId();
     }
 
     @PreUpdate
     public void onUpdate() {
         this.modDt = new Date();
-        this.modId = SecurityUtils.getCurrentUserId();
+        this.modId = SecurityUtil.getCurrentUserId();
     }
 }

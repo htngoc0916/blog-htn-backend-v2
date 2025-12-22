@@ -10,8 +10,8 @@ import com.htn.i18n.LocalizationService;
 import com.htn.mapper.TagMapper;
 import com.htn.repository.TagRepository;
 import com.htn.service.TagService;
-import com.htn.utils.PagingUtils;
-import com.htn.utils.SlugUtils;
+import com.htn.utils.PagingUtil;
+import com.htn.utils.SlugUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,10 +32,10 @@ public class TagServiceImpl implements TagService {
     public Tag addTag(TagDTO tag) {
 
         // Step 1: Generate slug từ input
-        String baseSlug = SlugUtils.generateSlug(tag.getTagName());
+        String baseSlug = SlugUtil.generateSlug(tag.getTagName());
 
         // callback: kiểm tra slug exist
-        String finalSlug = SlugUtils.toUniqueSlug(baseSlug,
+        String finalSlug = SlugUtil.toUniqueSlug(baseSlug,
                 slug -> tagRepository.findByTagSlug(slug).isPresent()
         );
 
@@ -61,7 +61,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public PageResponseDTO<Tag> searchTags(Pageable pageable, TagSearchDTO searchDTO) {
-        PagingUtils.paginationValidate(pageable);
+        PagingUtil.paginationValidate(pageable);
 
         //check search params
         Page<Tag> resultPage;

@@ -1,5 +1,6 @@
 package com.htn.dto;
 
+import com.htn.module.TreeNode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GroupCodeDtlResponseDTO {
+public class GroupCodeDtlResponseDTO implements TreeNode<GroupCodeDtlResponseDTO> {
     private Long id;
     private String groupCd;
     private String parentCd;
@@ -25,4 +26,14 @@ public class GroupCodeDtlResponseDTO {
     private String etc4;
 
     private List<GroupCodeDtlResponseDTO> children;
+
+    @Override
+    public String getCode() {
+        return codeCd;
+    }
+
+    @Override
+    public String getParentCode() {
+        return parentCd;
+    }
 }

@@ -5,7 +5,7 @@ import com.htn.dto.UploadResponseDTO;
 import com.htn.exception.GlobalException;
 import com.htn.i18n.FileMessages;
 import com.htn.i18n.LocalizationService;
-import com.htn.utils.FileUtils;
+import com.htn.utils.FileUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,7 @@ public abstract class FileModule {
         //setting file name
         String originalName = file.getOriginalFilename();
         String extension = getExtension(originalName);
-        String fileName = FileUtils.generateFileName().concat(extension);
+        String fileName = FileUtil.generateFileName().concat(extension);
 
         //check is video or images
         String contentType = file.getContentType();

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class SlugUtils {
+public class SlugUtil {
 
     //generate slug to string
     public static String generateSlug(String input) {

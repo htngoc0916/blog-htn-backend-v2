@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Random;
 
 @Data
-public class SecurityUtils {
+public class SecurityUtil {
     //tạo mã verify code
     public static String generateVerificationCode() {
         Random random = new Random();

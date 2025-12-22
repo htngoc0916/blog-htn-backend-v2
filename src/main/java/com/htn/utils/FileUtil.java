@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class FileUtils {
+public class FileUtil {
     //tạo file name với UUID
     public static String generateFileName() {
         String timestamp = String.valueOf(Instant.now().toEpochMilli());

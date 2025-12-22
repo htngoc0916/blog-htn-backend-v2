@@ -10,7 +10,7 @@ import com.htn.repository.UserRepository;
 import com.htn.security.custom.CustomUserDetails;
 import com.htn.security.jwt.JwtTokenProvider;
 import com.htn.service.TokenService;
-import com.htn.utils.SecurityUtils;
+import com.htn.utils.SecurityUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +50,7 @@ public class TokenServiceImpl implements TokenService {
         String deviceType = detectDevice(device);
 
         // Lấy user đã authenticate
-        CustomUserDetails userDetails = SecurityUtils.getUserDetailsFromSecurityContext();
+        CustomUserDetails userDetails = SecurityUtil.getUserDetailsFromSecurityContext();
         if(userDetails == null){
             throw new UnauthorizedException(i18n.translate(AuthMessages.AUTH_INVALID_CREDENTIALS));
         }
