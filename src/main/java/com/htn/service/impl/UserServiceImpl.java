@@ -17,7 +17,7 @@ import com.htn.repository.RoleRepository;
 import com.htn.repository.UserRepository;
 import com.htn.service.UserService;
 import com.htn.utils.PagingUtils;
-import com.htn.utils.Utils;
+import com.htn.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
         //set user info
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setVerifyYn("N");
-        user.setVerifyCode(Utils.generateVerificationCode());
+        user.setVerifyCode(SecurityUtils.generateVerificationCode());
         return userRepository.save(user);
     }
 
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
         user.setEmailSendYn("N");
         user.setVerifyYn("N");
         user.setEmailSendDt(new Date());
-        user.setVerifyCode(Utils.generateVerificationCode());
+        user.setVerifyCode(SecurityUtils.generateVerificationCode());
         userRepository.save(user);
         return true;
     }

@@ -45,13 +45,13 @@ public class FilesStorageController extends BaseController {
         return response(fileMasterService.fileDownload(fileName));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<?> getFileById(@PathVariable Long id) {
         return response(fileMasterService.getFileById(id));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("/admin/files/{fileName}")
+    @DeleteMapping("/{fileName}")
     public ResponseEntity<?> deleteFile(@PathVariable String fileName) {
         return response(fileMasterService.deleteFile(fileName));
     }

@@ -11,7 +11,7 @@ import com.htn.mapper.TagMapper;
 import com.htn.repository.TagRepository;
 import com.htn.service.TagService;
 import com.htn.utils.PagingUtils;
-import com.htn.utils.Utils;
+import com.htn.utils.SlugUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,10 +32,10 @@ public class TagServiceImpl implements TagService {
     public Tag addTag(TagDTO tag) {
 
         // Step 1: Generate slug từ input
-        String baseSlug = Utils.generateSlug(tag.getTagName());
+        String baseSlug = SlugUtils.generateSlug(tag.getTagName());
 
         // callback: kiểm tra slug exist
-        String finalSlug = Utils.toUniqueSlug(baseSlug,
+        String finalSlug = SlugUtils.toUniqueSlug(baseSlug,
                 slug -> tagRepository.findByTagSlug(slug).isPresent()
         );
 

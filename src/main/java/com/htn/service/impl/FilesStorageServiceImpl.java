@@ -8,6 +8,7 @@ import com.htn.exception.GlobalException;
 import com.htn.i18n.FileMessages;
 import com.htn.i18n.LocalizationService;
 import com.htn.mapper.MediaMasterMapper;
+import com.htn.module.FileModule;
 import com.htn.repository.MediaMasterRepository;
 import com.htn.service.FilesStorageService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class FilesStorageServiceImpl extends FileAbstract implements FilesStorageService {
+public class FilesStorageServiceImpl extends FileModule implements FilesStorageService {
 
     @Autowired
     private MediaMasterMapper mapper;

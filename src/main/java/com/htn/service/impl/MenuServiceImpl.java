@@ -41,11 +41,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuResponseDTO getMenuById(Long menuId) {
-        MenuResponseDTO menuResponseDTO = menuMbtMapper.getMenuById(menuId).orElseThrow(
+        return menuMbtMapper.getMenuById(menuId).orElseThrow(
                 () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, "MenuId="+menuId))
         );
-
-        return menuResponseDTO;
     }
 
     @Override
@@ -59,45 +57,6 @@ public class MenuServiceImpl implements MenuService {
         List<Menu> allMenus = menuRepository.findByMenuCodeAndUsedYnOrderByMenuOrdAsc(menuCode, "Y");
         return handleTreeMenu(allMenus);
     }
-
-//    @Override
-//    public MenuResponseDTO addMenu(MenuDTO menuDTO) {
-//        menuRepository.findByMenuCode(menuDTO.getMenuCode()).ifPresent(menu -> {
-//            throw new GlobalException(i18n.translate(CommonMessages.COMMON_DATA_EXISTED));
-//        });
-//
-//        Menu menu = menuMapper.toEntity(menuDTO);
-//        //set permission for menu
-//        List<MenuPermissionConfig> configs = menuDTO.getPermissions().stream().map(
-//                permissionCd -> {
-//                    Permission permission = permissionService.getPermissionByCd(permissionCd);
-//                    return  MenuPermissionConfig.builder()
-//                            .menu(menu)
-//                            .permission(permission)
-//                            .build();
-//                }
-//        ).toList();
-//        menu.setPermissionConfigs(configs);
-//
-//        Menu resultMenu = menuRepository.save(menu);
-//        List<MenuPermissionConfig> menuPermissionConfigs = resultMenu.getPermissionConfigs();
-//
-//        MenuResponseDTO menuResponseDTO = menuMapper.toResponseDto(resultMenu);
-//        List<PermissionConfigDTO> responsePermissionConfigs = menuPermissionConfigs.stream().map(
-//                item -> {
-//                    return PermissionConfigDTO.builder()
-//                            .permissionCd(item.getPermission().getPermissionCd())
-//                            .permissionName(item.getPermission().getPermissionNm())
-//                            .description(item.getDescription())
-//                            .build();
-//                }
-//        ).toList();
-//
-//        menuResponseDTO.setPermissions(responsePermissionConfigs);
-//
-//        return menuResponseDTO;
-//    }
-
 
     @Override
     @Transactional
@@ -127,9 +86,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuResponseDTO updateMenu(Long menuId, MenuDTO menuDTO) {
-//        Menu menu = getMenuById(menuId);
-//        menuMapper.updateFromDto(menuDTO, menu);
-//        return menuRepository.save(menu);
+        Menu menu = getMenuById(menuId);
+        menuMapper.updateFromDto(menuDTO, menu);
+        return menuRepository.save(menu);
         return null;
     }
 
