@@ -5,6 +5,7 @@ import com.htn.dto.MenuResponseDTO;
 import com.htn.entity.Menu;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -18,4 +19,9 @@ public interface MenuMapper extends BaseMapper<Menu, MenuDTO> {
     @Mapping(target = "permissions", source = "permissionConfigs")
     MenuResponseDTO toResponseDto(Menu entity);
     List<MenuResponseDTO> toResponseDto(List<Menu> entities);
+
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "permissionConfigs", ignore = true)
+    void updateFromDto(MenuDTO dto, @MappingTarget Menu entity);
 }

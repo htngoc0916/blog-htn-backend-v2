@@ -22,7 +22,7 @@ public class MenuController extends BaseController {
     }
 
     @Operation(summary = "Get menus by menu code")
-    @GetMapping("/menu-code/{code}")
+    @GetMapping("/codes/{code}")
     public ResponseEntity<?> getMenuByCode(@PathVariable("code") String menuCode){
         return response(menuService.getMenuByCode(menuCode));
     }

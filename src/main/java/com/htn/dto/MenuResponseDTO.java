@@ -1,6 +1,6 @@
 package com.htn.dto;
 
-import com.htn.entity.Permission;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.htn.module.TreeNode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,10 +30,13 @@ public class MenuResponseDTO implements TreeNode<MenuResponseDTO> {
     private List<PermissionConfigDTO> permissions;
 
     @Override
+    @JsonIgnore
     public String getCode() {
         return menuCode;
     }
+
     @Override
+    @JsonIgnore
     public String getParentCode() {
         return parentCd;
     }

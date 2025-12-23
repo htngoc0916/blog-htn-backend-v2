@@ -7,9 +7,12 @@ import com.htn.entity.Menu;
 import java.util.List;
 
 public interface MenuService  {
+    //get
     MenuResponseDTO getMenuById(Long menuId);
+    MenuResponseDTO getMenuByCode(String menuCode);
     List<MenuResponseDTO> getMenus();
-    List<MenuResponseDTO> getMenuByCode(String menuCode);
+
+    //save
     MenuResponseDTO addMenu(MenuDTO menuDTO);
     MenuResponseDTO updateMenu(Long menuId, MenuDTO menuDTO);
     boolean deleteMenu(Long menuId);
