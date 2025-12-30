@@ -1,8 +1,8 @@
 package com.htn.service;
 
-import com.htn.dto.PageResponseDTO;
+import com.htn.dto.response.PageResponseDTO;
 import com.htn.dto.TagDTO;
-import com.htn.dto.TagSearchDTO;
+import com.htn.dto.search.TagSearchDTO;
 import com.htn.entity.Tag;
 import org.springframework.data.domain.Pageable;
 

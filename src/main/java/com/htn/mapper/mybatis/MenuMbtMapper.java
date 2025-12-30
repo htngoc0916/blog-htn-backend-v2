@@ -1,6 +1,6 @@
 package com.htn.mapper.mybatis;
 
-import com.htn.dto.MenuResponseDTO;
+import com.htn.dto.response.MenuResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;

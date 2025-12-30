@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.htn.mapper.mybatis.MenuMbtMapper">
-    <resultMap id="MenuResultMap" type="com.htn.dto.MenuResponseDTO">
+    <resultMap id="MenuResultMap" type="com.htn.dto.response.MenuResponseDTO">
         <id     property="id"          column="ID"/>
         <result property="menuCode"    column="MENU_CODE"/>
         <result property="menuName"    column="MENU_NAME"/>

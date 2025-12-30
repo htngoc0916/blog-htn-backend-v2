@@ -1,4 +1,4 @@
-package com.htn.dto;
+package com.htn.dto.search;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;

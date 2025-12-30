@@ -1,9 +1,9 @@
 package com.htn.service;
 
 import com.htn.dto.CategoryDTO;
-import com.htn.dto.CategoryResponseDTO;
-import com.htn.dto.CategorySearchDTO;
-import com.htn.dto.PageResponseDTO;
+import com.htn.dto.response.CategoryResponseDTO;
+import com.htn.dto.search.CategorySearchDTO;
+import com.htn.dto.response.PageResponseDTO;
 import com.htn.entity.Category;
 import org.springframework.data.domain.Pageable;
 

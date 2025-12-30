@@ -1,4 +1,4 @@
-package com.htn.dto;
+package com.htn.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.htn.module.TreeNode;

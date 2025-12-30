@@ -1,8 +1,7 @@
 package com.htn.service;
 
 import com.htn.dto.MenuDTO;
-import com.htn.dto.MenuResponseDTO;
-import com.htn.entity.Menu;
+import com.htn.dto.response.MenuResponseDTO;
 
 import java.util.List;
 

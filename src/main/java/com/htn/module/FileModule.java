@@ -1,7 +1,7 @@
 package com.htn.module;
 
 import com.htn.dto.FileUploadDTO;
-import com.htn.dto.UploadResponseDTO;
+import com.htn.dto.response.UploadResponseDTO;
 import com.htn.exception.GlobalException;
 import com.htn.i18n.FileMessages;
 import com.htn.i18n.LocalizationService;

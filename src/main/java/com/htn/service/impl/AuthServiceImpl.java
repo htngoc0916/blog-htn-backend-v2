@@ -1,6 +1,8 @@
 package com.htn.service.impl;
 
 import com.htn.dto.*;
+import com.htn.dto.response.AuthResponseDTO;
+import com.htn.dto.response.UserResponseDTO;
 import com.htn.entity.Role;
 import com.htn.entity.Token;
 import com.htn.entity.User;

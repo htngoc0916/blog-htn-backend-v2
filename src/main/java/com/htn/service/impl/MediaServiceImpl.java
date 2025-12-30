@@ -1,9 +1,9 @@
 package com.htn.service.impl;
 
 import com.htn.dto.MediaMasterDTO;
-import com.htn.dto.MediaResponseDTO;
-import com.htn.dto.MediaSearchDTO;
-import com.htn.dto.PageResponseDTO;
+import com.htn.dto.response.MediaResponseDTO;
+import com.htn.dto.search.MediaSearchDTO;
+import com.htn.dto.response.PageResponseDTO;
 import com.htn.entity.MediaMaster;
 import com.htn.exception.NotFoundException;
 import com.htn.i18n.CommonMessages;

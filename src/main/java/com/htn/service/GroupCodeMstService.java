@@ -2,7 +2,7 @@ package com.htn.service;
 
 import com.htn.dto.GroupCodeMstDTO;
 import com.htn.dto.GroupCodeMstSearchDTO;
-import com.htn.dto.PageResponseDTO;
+import com.htn.dto.response.PageResponseDTO;
 import com.htn.entity.GroupCodeMst;
 import org.springframework.data.domain.Pageable;
 

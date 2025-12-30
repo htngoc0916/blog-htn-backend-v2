@@ -1,5 +1,6 @@
-package com.htn.dto;
+package com.htn.dto.search;
 
+import com.htn.dto.BaseDTO;
 import lombok.*;
 
 @Setter
@@ -7,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MediaSearchDTO extends BaseDTO{
+public class MediaSearchDTO extends BaseDTO {
     String mediaType;
 }

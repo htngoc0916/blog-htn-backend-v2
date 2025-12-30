@@ -1,4 +1,4 @@
-package com.htn.dto;
+package com.htn.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.htn.mapper;
 
 import com.htn.dto.MediaMasterDTO;
-import com.htn.dto.UploadResponseDTO;
+import com.htn.dto.response.UploadResponseDTO;
 import com.htn.entity.MediaMaster;
 import org.mapstruct.Mapper;
 

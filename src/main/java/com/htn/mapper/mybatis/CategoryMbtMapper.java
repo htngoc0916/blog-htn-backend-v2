@@ -1,7 +1,7 @@
 package com.htn.mapper.mybatis;
 
-import com.htn.dto.CategoryResponseDTO;
-import com.htn.dto.CategorySearchDTO;
+import com.htn.dto.response.CategoryResponseDTO;
+import com.htn.dto.search.CategorySearchDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

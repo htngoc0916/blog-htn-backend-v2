@@ -1,7 +1,7 @@
 package com.htn.controller;
 
 import com.htn.dto.CategoryDTO;
-import com.htn.dto.CategorySearchDTO;
+import com.htn.dto.search.CategorySearchDTO;
 import com.htn.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,7 @@
-package com.htn.dto;
+package com.htn.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.htn.dto.PermissionConfigDTO;
 import com.htn.module.TreeNode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

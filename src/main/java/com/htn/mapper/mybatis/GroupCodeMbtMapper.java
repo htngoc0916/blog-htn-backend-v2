@@ -1,6 +1,6 @@
 package com.htn.mapper.mybatis;
 
-import com.htn.dto.GroupCodeDtlResponseDTO;
+import com.htn.dto.response.GroupCodeDtlResponseDTO;
 import com.htn.dto.GroupCodeDtlSearchDTO;
 import org.apache.ibatis.annotations.Mapper;
 

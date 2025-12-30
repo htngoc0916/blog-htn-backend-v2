@@ -1,6 +1,6 @@
 package com.htn.mapper.mybatis;
 
-import com.htn.dto.MediaResponseDTO;
+import com.htn.dto.response.MediaResponseDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;

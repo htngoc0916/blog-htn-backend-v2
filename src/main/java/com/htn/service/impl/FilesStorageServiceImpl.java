@@ -2,7 +2,7 @@ package com.htn.service.impl;
 
 import com.htn.dto.FileUploadDTO;
 import com.htn.dto.FileUploadMultipleDTO;
-import com.htn.dto.UploadResponseDTO;
+import com.htn.dto.response.UploadResponseDTO;
 import com.htn.entity.MediaMaster;
 import com.htn.exception.GlobalException;
 import com.htn.i18n.FileMessages;

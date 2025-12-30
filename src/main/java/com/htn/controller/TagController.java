@@ -2,7 +2,7 @@ package com.htn.controller;
 
 
 import com.htn.dto.TagDTO;
-import com.htn.dto.TagSearchDTO;
+import com.htn.dto.search.TagSearchDTO;
 import com.htn.service.TagService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

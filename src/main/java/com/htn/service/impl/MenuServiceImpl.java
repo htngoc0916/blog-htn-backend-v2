@@ -1,8 +1,10 @@
 package com.htn.service.impl;
 
+import com.htn.constant.ActionType;
 import com.htn.dto.MenuDTO;
-import com.htn.dto.MenuResponseDTO;
+import com.htn.dto.response.MenuResponseDTO;
 import com.htn.entity.Menu;
+import com.htn.entity.MenuHist;
 import com.htn.entity.MenuPermissionConfig;
 import com.htn.entity.Permission;
 import com.htn.exception.GlobalException;
@@ -11,9 +13,12 @@ import com.htn.i18n.CommonMessages;
 import com.htn.i18n.LocalizationService;
 import com.htn.mapper.MenuMapper;
 import com.htn.module.TreeModule;
+import com.htn.repository.MenuHistRepository;
 import com.htn.repository.MenuRepository;
 import com.htn.repository.PermissionRepository;
 import com.htn.service.MenuService;
+import com.htn.utils.JsonUtil;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +34,8 @@ public class MenuServiceImpl implements MenuService {
     private MenuRepository menuRepository;
     @Autowired
     private PermissionRepository permissionRepository;
+    @Autowired
+    private MenuHistRepository menuHistRepository;
 
     @Autowired
     private LocalizationService i18n;
@@ -74,8 +81,11 @@ public class MenuServiceImpl implements MenuService {
         List<MenuPermissionConfig> permissionConfigs = buildMenuPermissionConfigs(menu, menuDTO.getPermissions());
         menu.setPermissionConfigs(permissionConfigs);
 
-        // 4. Save
+        // 4. Save menu
         Menu savedMenu = menuRepository.save(menu);
+
+        //save menu_hist
+        saveMenuHist(savedMenu, ActionType.CREATE.getCode(), null, JsonUtil.toJson(savedMenu));
 
         return menuMapper.toResponseDto(savedMenu);
     }
@@ -86,6 +96,9 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = menuRepository.findById(menuId).orElseThrow(
                 () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND))
         );
+        //before json
+        String beforeData = JsonUtil.toJson(menu);
+
         // Update field cơ bản
         menuMapper.updateFromDto(menuDTO, menu);
         // 3. Build permission configs
@@ -94,7 +107,15 @@ public class MenuServiceImpl implements MenuService {
         menu.getPermissionConfigs().clear();
         menu.getPermissionConfigs().addAll(permissionConfigs);
 
-        return menuMapper.toResponseDto(menuRepository.save(menu));
+        Menu savedMenu = menuRepository.save(menu);
+
+        //after json
+        String afterData = JsonUtil.toJson(savedMenu);
+
+        //save menu_hist
+        saveMenuHist(savedMenu, ActionType.UPDATE.getCode(), beforeData, afterData);
+
+        return menuMapper.toResponseDto(savedMenu);
     }
 
 
@@ -134,5 +155,16 @@ public class MenuServiceImpl implements MenuService {
                         .usedYn("Y")
                         .build())
                 .toList();
+    }
+
+    //save menu_hist
+    private void saveMenuHist(Menu menu, String histType, String beforeData, String afterData) {
+        MenuHist hist = new MenuHist();
+        hist.setMenuId(menu.getId());
+        hist.setMenuCode(menu.getMenuCode());
+        hist.setHistType(histType);
+        hist.setBeforeData(beforeData);
+        hist.setAfterData(afterData);
+        menuHistRepository.save(hist);
     }
 }

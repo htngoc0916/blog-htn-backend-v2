@@ -23,7 +23,7 @@
 
 
     <!-- SEARCH PARENT CATEGORIES (with pagination) -->
-    <select id="searchParentCategories" resultType="com.htn.dto.CategoryResponseDTO">
+    <select id="searchParentCategories" resultType="com.htn.dto.response.CategoryResponseDTO">
         SELECT DISTINCT p.*
         FROM categories p
         LEFT JOIN categories c ON c.parent_cd = p.category_cd
@@ -50,7 +50,7 @@
 
 
     <!-- LOAD CHILDREN OF PARENT LIST -->
-    <select id="findChildrenByParentCds" resultType="com.htn.dto.CategoryResponseDTO">
+    <select id="findChildrenByParentCds" resultType="com.htn.dto.response.CategoryResponseDTO">
         SELECT *
         FROM categories
         WHERE parent_cd IN

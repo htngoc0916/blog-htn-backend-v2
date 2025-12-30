@@ -1,7 +1,7 @@
 package com.htn.controller;
 
 import com.htn.dto.UserDTO;
-import com.htn.dto.UserSearchDTO;
+import com.htn.dto.search.UserSearchDTO;
 import com.htn.service.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;

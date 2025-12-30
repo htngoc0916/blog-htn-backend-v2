@@ -1,8 +1,8 @@
 package com.htn.service.impl;
 
-import com.htn.dto.PageResponseDTO;
+import com.htn.dto.response.PageResponseDTO;
 import com.htn.dto.UserDTO;
-import com.htn.dto.UserSearchDTO;
+import com.htn.dto.search.UserSearchDTO;
 import com.htn.dto.VerifyCodeDTO;
 import com.htn.entity.Role;
 import com.htn.entity.User;
