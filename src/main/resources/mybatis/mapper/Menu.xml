@@ -39,7 +39,7 @@
             p.PERMISSION_CD,
             p.PERMISSION_NM
         FROM menus m
-        LEFT JOIN menu_permission_config c ON m.ID = c.MENU_ID
+        LEFT JOIN menu_permission c ON m.ID = c.MENU_ID
         LEFT JOIN permissions p ON p.ID = c.PERMISSION_ID
         WHERE m.ID = #{menuId}
         ORDER BY c.SORT_ORDER

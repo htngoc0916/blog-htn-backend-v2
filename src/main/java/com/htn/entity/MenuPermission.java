@@ -8,9 +8,9 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "menu_permission_config")
+@Table(name = "menu_permission")
 @Builder
-public class MenuPermissionConfig {
+public class MenuPermission{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")

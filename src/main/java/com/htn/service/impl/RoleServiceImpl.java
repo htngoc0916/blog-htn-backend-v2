@@ -1,6 +1,7 @@
 package com.htn.service.impl;
 
 import com.htn.dto.RoleDTO;
+import com.htn.dto.response.RoleMenuResponseDTO;
 import com.htn.dto.search.RoleSearchDTO;
 import com.htn.entity.Role;
 import com.htn.exception.GlobalException;
@@ -33,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> searchRole(RoleSearchDTO searchDTO) {
+    public List<Role> searchRoles(RoleSearchDTO searchDTO) {
         List<Role> resutl;
         if(StringUtils.hasText(searchDTO.getKeyword())){
             resutl = roleRepository.findByRoleNameContainingIgnoreCaseOrRoleCodeContainingIgnoreCase(searchDTO.getKeyword(), searchDTO.getKeyword());
@@ -55,6 +56,11 @@ public class RoleServiceImpl implements RoleService {
     public Role updateRole(Long roleId, RoleDTO roleDTO) {
         Role role = getRoleById(roleId);
         roleMapper.updateFromDto(roleDTO, role);
+        return roleRepository.save(role);
+    }
+
+    @Override
+    public List<RoleMenuResponseDTO> getMenusByRole(Long roleId){
         return null;
     }
 }

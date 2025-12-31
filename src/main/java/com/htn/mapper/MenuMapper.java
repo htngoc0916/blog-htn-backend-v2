@@ -11,7 +11,7 @@ import java.util.List;
 
 @Mapper(
         componentModel = "spring",
-        uses = MenuPermissionConfigMapper.class
+        uses = MenuPermissionMapper.class
 )
 public interface MenuMapper extends BaseMapper<Menu, MenuDTO> {
 

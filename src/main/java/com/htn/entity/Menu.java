@@ -37,5 +37,5 @@ public class Menu extends BaseEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MenuPermissionConfig> permissionConfigs;
+    private List<MenuPermission> permissionConfigs;
 }

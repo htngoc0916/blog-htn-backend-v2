@@ -5,7 +5,7 @@ import com.htn.dto.MenuDTO;
 import com.htn.dto.response.MenuResponseDTO;
 import com.htn.entity.Menu;
 import com.htn.entity.MenuHist;
-import com.htn.entity.MenuPermissionConfig;
+import com.htn.entity.MenuPermission;
 import com.htn.entity.Permission;
 import com.htn.exception.GlobalException;
 import com.htn.exception.NotFoundException;
@@ -18,7 +18,6 @@ import com.htn.repository.MenuRepository;
 import com.htn.repository.PermissionRepository;
 import com.htn.service.MenuService;
 import com.htn.utils.JsonUtil;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,7 +77,7 @@ public class MenuServiceImpl implements MenuService {
         Menu menu = menuMapper.toEntity(menuDTO);
 
         // 3. Build permission configs
-        List<MenuPermissionConfig> permissionConfigs = buildMenuPermissionConfigs(menu, menuDTO.getPermissions());
+        List<MenuPermission> permissionConfigs = buildMenuPermissionConfigs(menu, menuDTO.getPermissions());
         menu.setPermissionConfigs(permissionConfigs);
 
         // 4. Save menu
@@ -102,7 +101,7 @@ public class MenuServiceImpl implements MenuService {
         // Update field cơ bản
         menuMapper.updateFromDto(menuDTO, menu);
         // 3. Build permission configs
-        List<MenuPermissionConfig> permissionConfigs = buildMenuPermissionConfigs(menu, menuDTO.getPermissions());
+        List<MenuPermission> permissionConfigs = buildMenuPermissionConfigs(menu, menuDTO.getPermissions());
 
         menu.getPermissionConfigs().clear();
         menu.getPermissionConfigs().addAll(permissionConfigs);
@@ -127,7 +126,7 @@ public class MenuServiceImpl implements MenuService {
         return true;
     }
 
-    private List<MenuPermissionConfig> buildMenuPermissionConfigs(Menu menu, List<String> permissionCds) {
+    private List<MenuPermission> buildMenuPermissionConfigs(Menu menu, List<String> permissionCds) {
         if (permissionCds == null || permissionCds.isEmpty()) {
             return List.of();
         }
@@ -149,7 +148,7 @@ public class MenuServiceImpl implements MenuService {
 
         // Build configs
         return permissionCds.stream()
-                .map(cd -> MenuPermissionConfig.builder()
+                .map(cd -> MenuPermission.builder()
                         .menu(menu)
                         .permission(permissionMap.get(cd))
                         .usedYn("Y")

@@ -1,6 +1,7 @@
 package com.htn.service;
 
 import com.htn.dto.RoleDTO;
+import com.htn.dto.response.RoleMenuResponseDTO;
 import com.htn.dto.search.RoleSearchDTO;
 import com.htn.entity.Role;
 
@@ -13,5 +14,6 @@ public interface RoleService {
 
     //get
     Role getRoleById(Long id);
-    List<Role> searchRole(RoleSearchDTO searchDTO);
+    List<Role> searchRoles(RoleSearchDTO searchDTO);
+    List<RoleMenuResponseDTO> getMenusByRole(Long roleId);
 }
