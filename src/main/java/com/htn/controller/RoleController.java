@@ -41,4 +41,5 @@ public class RoleController extends BaseController{
     public ResponseEntity<?> updateRole(@PathVariable("id") Long id, @Valid @RequestBody RoleDTO roleDTO){
         return response(roleService.updateRole(id, roleDTO));
     }
+
 }

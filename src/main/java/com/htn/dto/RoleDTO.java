@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +20,6 @@ public class RoleDTO {
     private String roleName;
     private String roleDes;
     private String roleIcon;
+
+    List<RoleMenuPermissionDTO> menuPermissions;
 }

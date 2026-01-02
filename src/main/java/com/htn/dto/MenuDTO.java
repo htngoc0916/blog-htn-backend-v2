@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class MenuDTO {
+    private Long id;
     private String menuCode;
     private String menuName;
     private String menuNameEng;
