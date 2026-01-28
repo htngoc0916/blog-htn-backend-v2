@@ -10,6 +10,7 @@ import com.htn.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,5 +43,17 @@ public class AuthController extends BaseController {
     @PostMapping(value = "/send-verifyCode/{email}")
     public ResponseEntity<?> sendVerifyCode(@PathVariable("email") String email){
         return response(authService.sendVerifyCode(email));
+    }
+
+    @PostMapping(value = "/logout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> logout(){
+        return response(null);
+    }
+
+    @GetMapping(value = "/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> getMe(){
+        return response(authService.getMe());
     }
 }

@@ -1,12 +1,12 @@
 package com.htn.exception;
 
 import com.htn.dto.ResponseDTO;
-import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,7 +41,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseDTO);
     }
 
-//    Loi validation cua @Valid
+    //loi  Access Denied
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException exp, WebRequest request){
+        log.error("handleAccessDeniedException: {}", exp.getMessage());
+        ResponseDTO<?> responseDTO = ResponseDTO.error(HttpStatus.UNAUTHORIZED.value()
+                ,exp.getMessage(),
+                request.getDescription(false));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO);
+    }
+
+    // Loi validation cua @Valid
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException exp,

@@ -10,4 +10,6 @@ public interface AuthService {
     UserResponseDTO signup(UserDTO userDTO);
     boolean verifyCode(VerifyCodeDTO verifyCodeDTO);
     boolean sendVerifyCode(String email);
+    UserResponseDTO getMe();
+
 }

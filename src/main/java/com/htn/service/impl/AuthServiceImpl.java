@@ -22,10 +22,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
+
+import static com.htn.utils.SecurityUtil.getUserDetailsFromSecurityContext;
 
 @Service
 @Slf4j
@@ -94,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(user.getEmail())
                 .verifyYn(user.getVerifyYn())
                 .usedYn(user.getUsedYn())
-                .role(roles)
+                .roles(roles)
                 .build();
     }
 
@@ -106,5 +110,19 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public boolean sendVerifyCode(String email) {
         return userService.sendVerifyCode(email);
+    }
+
+    @Override
+    public UserResponseDTO getMe(){
+        CustomUserDetails user = getUserDetailsFromSecurityContext();
+        List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
+        return UserResponseDTO.builder()
+                .id(user.getId())
+                .userName(user.getUsername())
+                .email(user.getEmail())
+                .verifyYn(user.getVerifyYN())
+                .usedYn(user.getUsedYN())
+                .roles(roles)
+                .build();
     }
 }

@@ -18,5 +18,5 @@ public class UserResponseDTO {
     private String avatar;
     private String verifyYn;
     private String usedYn;
-    private List<String> role;
+    private List<String> roles;
 }
