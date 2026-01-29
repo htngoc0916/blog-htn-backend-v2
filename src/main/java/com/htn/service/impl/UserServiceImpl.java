@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
             throw new GlobalException(i18n.translate(UserMessages.USER_EMAIL_EXISTS));
         }
         //check role exists
-        Role role = roleRepository.findByRoleName(userDTO.getRole()).orElseThrow(
+        Role role = roleRepository.findByRoleCode(userDTO.getRole()).orElseThrow(
                 () -> new NotFoundException(i18n.translate(CommonMessages.COMMON_NOT_FOUND_WITH, userDTO.getRole()))
         );
 

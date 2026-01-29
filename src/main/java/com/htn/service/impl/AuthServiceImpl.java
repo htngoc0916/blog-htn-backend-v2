@@ -26,7 +26,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 import static com.htn.utils.SecurityUtil.getUserDetailsFromSecurityContext;
@@ -89,9 +88,9 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserResponseDTO signup(UserDTO userDTO){
+    public UserResponseDTO register(UserDTO userDTO){
         User user = userService.clientAddUser(userDTO);
-        List<String> roles = user.getRoles().stream().map(Role::getRoleName).toList();
+        List<String> roles = user.getRoles().stream().map(Role::getRoleCode).toList();
         return UserResponseDTO.builder()
                 .id(user.getId())
                 .userName(user.getUserName())
@@ -124,5 +123,10 @@ public class AuthServiceImpl implements AuthService {
                 .usedYn(user.getUsedYN())
                 .roles(roles)
                 .build();
+    }
+
+    @Override
+    public String logout(){
+        return null;
     }
 }

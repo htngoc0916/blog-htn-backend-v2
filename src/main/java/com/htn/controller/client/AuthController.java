@@ -30,9 +30,9 @@ public class AuthController extends BaseController {
         return response(authService.refreshToken(refreshTokenDTO.getRefreshToken()), AuthMessages.AUTH_REFRESH_TOKEN_SUCCESS);
     }
 
-    @PostMapping(value = "/sign-up")
-    public ResponseEntity<?> signup(@Valid @RequestBody UserDTO userDTO){
-        return response(authService.signup(userDTO), AuthMessages.AUTH_SIGNUP_SUCCESS);
+    @PostMapping(value = "/register")
+    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO){
+        return response(authService.register(userDTO), AuthMessages.AUTH_SIGNUP_SUCCESS);
     }
 
     @PostMapping(value = "/verification")
@@ -48,7 +48,7 @@ public class AuthController extends BaseController {
     @PostMapping(value = "/logout")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> logout(){
-        return response(null);
+        return response(authService.logout(), AuthMessages.AUTH_LOGOUT_SUCCESS);
     }
 
     @GetMapping(value = "/me")

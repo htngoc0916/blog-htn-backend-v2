@@ -7,9 +7,9 @@ import com.htn.dto.response.UserResponseDTO;
 public interface AuthService {
     AuthResponseDTO login(LoginDTO loginDTO);
     AuthResponseDTO refreshToken(String refreshToken);
-    UserResponseDTO signup(UserDTO userDTO);
+    UserResponseDTO register(UserDTO userDTO);
     boolean verifyCode(VerifyCodeDTO verifyCodeDTO);
     boolean sendVerifyCode(String email);
     UserResponseDTO getMe();
-
+    String logout();
 }
