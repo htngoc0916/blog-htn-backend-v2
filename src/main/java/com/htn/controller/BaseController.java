@@ -6,6 +6,7 @@ import com.htn.i18n.LocalizationService;
 import com.htn.i18n.MessageKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public abstract class BaseController {
     }
 
     //response error with status code and messages key
-    protected ResponseEntity<?> error(int status, MessageKey messageKey, Object... args) {
-        return ResponseEntity.status(status).body(ResponseDTO.error(status, i18n.translate(messageKey, args), null));
+    protected ResponseEntity<?> error(HttpStatus status, MessageKey messageKey, Object... args) {
+        return ResponseEntity.status(status).body(ResponseDTO.error(status.name(), i18n.translate(messageKey, args), null));
     }
 }

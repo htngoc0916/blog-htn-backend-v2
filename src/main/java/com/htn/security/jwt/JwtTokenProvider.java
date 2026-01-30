@@ -31,7 +31,7 @@ public class JwtTokenProvider {
 
         //tao ra token
         return Jwts.builder()
-                .subject(userDetail.getEmail())
+                .subject(userDetail.getUsername())
 //                .claim("id", userDetail.getId())
 //                .claim("verifyYN", userDetail.getVerifyYN())
 //                .claim("usedYN", userDetail.getUsedYN())

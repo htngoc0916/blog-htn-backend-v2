@@ -66,7 +66,7 @@ public class TokenServiceImpl implements TokenService {
                             .refreshExpirationDate(refreshExpirationDateTime)
                             .device(device)
                             .deviceType(deviceType)
-                            .userId(userDetails.getId())
+                            .userId(userDetails.getUser().getId())
                             .build());
     }
 

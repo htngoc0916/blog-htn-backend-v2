@@ -30,6 +30,6 @@ public class SecurityUtil {
     //get current user id
     public static Long getCurrentUserId() {
         CustomUserDetails user = getUserDetailsFromSecurityContext();
-        return (user != null) ? user.getId() : null;
+        return (user != null) ? user.getUser().getId() : null;
     }
 }

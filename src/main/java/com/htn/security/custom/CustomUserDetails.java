@@ -1,6 +1,7 @@
 package com.htn.security.custom;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.htn.entity.Role;
 import com.htn.entity.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,76 +15,67 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Setter
 @Getter
 public class CustomUserDetails implements UserDetails {
 	@Serial
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
-	private String username;
-	private String email;
-	private String verifyYN;
-	private String usedYN;
+    private final User user;
 
-	@JsonIgnore
-	private String password;
-
-	private Collection<? extends GrantedAuthority> authorities;
-
-	public CustomUserDetails(Long id, String username, String email, String password, String verifyYN, String usedYN,
-							 Collection<? extends GrantedAuthority> authorities) {
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.verifyYN = verifyYN;
-		this.usedYN = usedYN;
-		this.authorities = authorities;
-	}
+    public CustomUserDetails(User user) {
+        this.user = user;
+    }
 
 	public static CustomUserDetails build(User user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getRoleCode()))
-				.collect(Collectors.toList());
-
-		return new CustomUserDetails(
-				user.getId(), 
-				user.getUserName(),
-				user.getEmail(),
-				user.getPassword(),
-				user.getVerifyYn(),
-				user.getUsedYn(),
-				authorities);
+        return new CustomUserDetails(user);
 	}
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<Role> roles = user.getRoles();
+
+        if (roles == null || roles.isEmpty()) {
+            return List.of();
+        }
+
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRoleCode()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        // login bằng email
+        return user.getEmail();
+    }
+
+    @Override
+    @JsonIgnore
+    public String getPassword() {
+        return user.getPassword();
+    }
 
 	@Override
 	public boolean isAccountNonExpired() {
+        //account hết hạn -> AccountExpiredException
 		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+        // account bị khóa -> LockedException
+        return "Y".equalsIgnoreCase(user.getUsedYn());
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
+        //password hết hạn > CredentialsExpiredException
 		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		CustomUserDetails user = (CustomUserDetails) o;
-		return Objects.equals(id, user.id);
+        // account chưa kích hoạt -> DisabledException
+        return "Y".equalsIgnoreCase(user.getVerifyYn());
 	}
 }

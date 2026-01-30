@@ -1,14 +1,17 @@
 package com.htn.service.impl;
 
-import com.htn.dto.*;
+import com.htn.dto.LoginDTO;
+import com.htn.dto.UserDTO;
+import com.htn.dto.VerifyCodeDTO;
 import com.htn.dto.response.AuthResponseDTO;
 import com.htn.dto.response.UserResponseDTO;
 import com.htn.entity.Role;
 import com.htn.entity.Token;
 import com.htn.entity.User;
-import com.htn.exception.UnauthorizedException;
+import com.htn.exception.GlobalException;
 import com.htn.i18n.AuthMessages;
 import com.htn.i18n.LocalizationService;
+import com.htn.i18n.UserMessages;
 import com.htn.security.custom.CustomUserDetails;
 import com.htn.security.jwt.JwtTokenProvider;
 import com.htn.service.AuthService;
@@ -18,9 +21,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,11 +52,11 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponseDTO login(LoginDTO loginDTO) {
         //xác thực bằng loadUserByUsername
         Authentication authentication = authenticate(loginDTO.getEmail(), loginDTO.getPassword());
-
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         //lưu thông tin người dùng đã login
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
         //tạo token
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String token = jwtTokenProvider.generateJwtToken(userDetails);
         Token resultToken = tokenService.addTokenToLogin(token);
         return AuthResponseDTO.builder()
@@ -71,8 +73,16 @@ public class AuthServiceImpl implements AuthService {
             return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         }
         catch(BadCredentialsException ex) {
-            log.error("Invalid email or password");
-            throw new UnauthorizedException(i18n.translate(AuthMessages.AUTH_INVALID_CREDENTIALS));
+            //tk or mk khong dung
+            throw new GlobalException(HttpStatus.UNAUTHORIZED, i18n.translate(AuthMessages.AUTH_INVALID_CREDENTIALS));
+        }
+        catch (LockedException ex) {
+            //tk bi khoa
+            throw new GlobalException(HttpStatus.FORBIDDEN, i18n.translate(UserMessages.USER_BLOCKED));
+        }
+        catch (DisabledException ex) {
+            //tk chua active
+            throw new GlobalException(HttpStatus.FORBIDDEN, i18n.translate(UserMessages.USER_EMAIL_NOT_VERIFIED));
         }
     }
 
@@ -116,11 +126,11 @@ public class AuthServiceImpl implements AuthService {
         CustomUserDetails user = getUserDetailsFromSecurityContext();
         List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
         return UserResponseDTO.builder()
-                .id(user.getId())
+                .id(user.getUser().getId())
                 .userName(user.getUsername())
-                .email(user.getEmail())
-                .verifyYn(user.getVerifyYN())
-                .usedYn(user.getUsedYN())
+                .email(user.getUser().getEmail())
+                .verifyYn(user.getUser().getVerifyYn())
+                .usedYn(user.getUser().getUsedYn())
                 .roles(roles)
                 .build();
     }
