@@ -52,6 +52,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO);
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<?> handleUnauthorizedException(UnauthorizedException exp, WebRequest request){
+        log.error("handleUnauthorizedException: {}", exp.getMessage());
+        ResponseDTO<?> responseDTO = ResponseDTO.error(exp.getErrorCode().getName()
+                ,exp.getMessage(),
+                request.getDescription(false));
+        return ResponseEntity.status(exp.getErrorCode().getCode()).body(responseDTO);
+    }
+
     // Loi validation cua @Valid
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(

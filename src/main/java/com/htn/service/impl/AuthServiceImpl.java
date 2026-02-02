@@ -1,5 +1,6 @@
 package com.htn.service.impl;
 
+import com.htn.constant.ErrorCode;
 import com.htn.dto.LoginDTO;
 import com.htn.dto.UserDTO;
 import com.htn.dto.VerifyCodeDTO;
@@ -8,7 +9,7 @@ import com.htn.dto.response.UserResponseDTO;
 import com.htn.entity.Role;
 import com.htn.entity.Token;
 import com.htn.entity.User;
-import com.htn.exception.GlobalException;
+import com.htn.exception.UnauthorizedException;
 import com.htn.i18n.AuthMessages;
 import com.htn.i18n.LocalizationService;
 import com.htn.i18n.UserMessages;
@@ -21,7 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -74,15 +74,15 @@ public class AuthServiceImpl implements AuthService {
         }
         catch(BadCredentialsException ex) {
             //tk or mk khong dung
-            throw new GlobalException(HttpStatus.UNAUTHORIZED, i18n.translate(AuthMessages.AUTH_INVALID_CREDENTIALS));
+            throw new UnauthorizedException(i18n.translate(AuthMessages.AUTH_INVALID_CREDENTIALS));
         }
         catch (LockedException ex) {
             //tk bi khoa
-            throw new GlobalException(HttpStatus.FORBIDDEN, i18n.translate(UserMessages.USER_BLOCKED));
+            throw new UnauthorizedException(ErrorCode.ACCOUNT_LOCKED, i18n.translate(UserMessages.USER_BLOCKED));
         }
         catch (DisabledException ex) {
             //tk chua active
-            throw new GlobalException(HttpStatus.FORBIDDEN, i18n.translate(UserMessages.USER_EMAIL_NOT_VERIFIED));
+            throw new UnauthorizedException(ErrorCode.ACCOUNT_NOT_VERIFIED, i18n.translate(UserMessages.USER_EMAIL_NOT_VERIFIED));
         }
     }
 

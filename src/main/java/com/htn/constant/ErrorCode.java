@@ -7,8 +7,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
+    ACCOUNT_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "ACCOUNT_UNAUTHORIZED"),
     ACCOUNT_LOCKED(HttpStatus.FORBIDDEN, "ACCOUNT_LOCKED"),
-    ACCOUNT_EMAIL_NOT_VERIFIED(HttpStatus.FORBIDDEN, "ACCOUNT_NOT_VERIFIED");
+    ACCOUNT_NOT_VERIFIED(HttpStatus.FORBIDDEN, "ACCOUNT_NOT_VERIFIED");
 
     private final HttpStatus code;
     private final String name;
